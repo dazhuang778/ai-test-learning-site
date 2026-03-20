@@ -1,10 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export' 仅用于 GitHub Pages 静态部署，Vercel 不需要
   trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
 }
 
 module.exports = nextConfig
