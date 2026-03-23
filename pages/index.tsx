@@ -41,25 +41,35 @@ export default function Home({ nodes }: HomeProps) {
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Hero */}
-        <div className="text-center mb-10">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-blue-600 via-violet-600 to-purple-700 py-16 sm:py-20 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-5xl font-bold text-white mb-4 drop-shadow">
             AI辅助软件测试 · 学习体系
           </h1>
-          <p className="text-gray-500 max-w-2xl mx-auto text-base sm:text-lg">
+          <p className="text-blue-100 max-w-2xl mx-auto text-base sm:text-lg mb-8">
             系统化学习路径，点击节点探索各主题的精选学习资源
           </p>
+          <a
+            href="#graph"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/20 hover:bg-white/30 text-white font-medium transition-all duration-200 backdrop-blur-sm border border-white/30"
+          >
+            开始探索 ↓
+          </a>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Graph or List */}
-        {isMobile ? (
-          <NodeListView nodes={nodes} />
-        ) : (
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <KnowledgeGraph nodes={nodes} />
-          </div>
-        )}
+        <div id="graph">
+          {isMobile ? (
+            <NodeListView nodes={nodes} />
+          ) : (
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+              <KnowledgeGraph nodes={nodes} />
+            </div>
+          )}
+        </div>
 
         {/* Level Legend */}
         <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">

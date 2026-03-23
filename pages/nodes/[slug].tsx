@@ -14,10 +14,17 @@ const LEVEL_LABELS: Record<number, string> = {
   3: 'Level 3 · 综合实践',
 };
 
+const LEVEL_GRADIENTS: Record<number, string> = {
+  0: 'from-purple-600 via-violet-600 to-purple-800',
+  1: 'from-blue-600 via-blue-500 to-blue-800',
+  2: 'from-green-600 via-emerald-500 to-green-800',
+  3: 'from-orange-500 via-amber-500 to-orange-700',
+};
+
 const STAGE_STYLES: Record<string, string> = {
-  '入门': 'bg-green-100 text-green-700',
-  '进阶': 'bg-blue-100 text-blue-700',
-  '高阶': 'bg-purple-100 text-purple-700',
+  '入门': 'bg-white/20 text-white',
+  '进阶': 'bg-white/20 text-white',
+  '高阶': 'bg-white/20 text-white',
 };
 
 interface NodePageProps {
@@ -26,41 +33,46 @@ interface NodePageProps {
 }
 
 export default function NodePage({ node, bodyHtml }: NodePageProps) {
+  const gradient = LEVEL_GRADIENTS[node.level] ?? LEVEL_GRADIENTS[0];
+
   return (
     <Layout title={node.title} description={node.description}>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-gray-400 mb-8">
-          <Link href="/" className="hover:text-blue-600 transition-colors">
-            知识图谱
-          </Link>
-          <span>/</span>
-          <span className="text-gray-700 font-medium">{node.title}</span>
-        </nav>
+      {/* Banner */}
+      <div className={`bg-gradient-to-br ${gradient} px-4 py-10 sm:py-14`}>
+        <div className="max-w-3xl mx-auto">
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-2 text-sm text-white/60 mb-6">
+            <Link href="/" className="hover:text-white transition-colors">
+              知识图谱
+            </Link>
+            <span>/</span>
+            <span className="text-white/90">{node.title}</span>
+          </nav>
 
-        {/* Header */}
-        <header className="mb-10">
+          {/* Tags & difficulty */}
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">
+            <span className="text-xs font-medium bg-white/20 text-white px-2.5 py-1 rounded-full">
               {LEVEL_LABELS[node.level]}
             </span>
-            <span
-              className={`text-xs font-medium px-2.5 py-1 rounded-full ${STAGE_STYLES[node.stage] ?? 'bg-gray-100 text-gray-600'}`}
-            >
+            <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STAGE_STYLES[node.stage] ?? 'bg-white/20 text-white'}`}>
               {node.stage}
             </span>
             <span className="text-sm">
               {Array.from({ length: 3 }).map((_, i) => (
-                <span key={i} className={i < node.difficulty ? 'text-yellow-400' : 'text-gray-200'}>
+                <span key={i} className={i < node.difficulty ? 'text-yellow-300' : 'text-white/20'}>
                   ★
                 </span>
               ))}
             </span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">{node.title}</h1>
-          <p className="text-gray-600 text-lg leading-relaxed">{node.description}</p>
-        </header>
 
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 drop-shadow">{node.title}</h1>
+          <p className="text-white/80 text-lg leading-relaxed">{node.description}</p>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Body */}
         {bodyHtml && (
           <div
