@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
 import { remark } from 'remark';
@@ -27,6 +28,23 @@ const STAGE_STYLES: Record<string, string> = {
   '高阶': 'bg-white/20 text-white',
 };
 
+// 资源分组顺序：课程 → 工具 → 文章 → 视频（学习路径优先）
+const TYPE_ORDER = ['course', 'tool', 'article', 'video'] as const;
+
+const TYPE_LABELS: Record<string, string> = {
+  article: '文章',
+  video: '视频',
+  course: '课程',
+  tool: '工具',
+};
+
+const TYPE_ICONS: Record<string, string> = {
+  article: '📄',
+  video: '🎬',
+  course: '🎓',
+  tool: '🛠️',
+};
+
 interface NodePageProps {
   node: KnowledgeNode;
   bodyHtml: string | null;
@@ -34,6 +52,19 @@ interface NodePageProps {
 
 export default function NodePage({ node, bodyHtml }: NodePageProps) {
   const gradient = LEVEL_GRADIENTS[node.level] ?? LEVEL_GRADIENTS[0];
+
+  // 过滤状态：'all' 或具体 type
+  const [activeType, setActiveType] = useState<string>('all');
+
+  // 当前节点实际存在的类型，按 TYPE_ORDER 排序
+  const presentTypes = TYPE_ORDER.filter(t =>
+    node.resources.some(r => r.type === t)
+  );
+
+  // 当前展示的资源（过滤后）
+  const filteredResources = activeType === 'all'
+    ? node.resources
+    : node.resources.filter(r => r.type === activeType);
 
   return (
     <Layout title={node.title} description={node.description}>
@@ -83,17 +114,100 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
 
         {/* Resources */}
         <section>
-          <div className="flex items-center gap-2 mb-5">
+          {/* 标题行：总数 badge 不随过滤变化 */}
+          <div className="flex items-center gap-2 mb-4">
             <h2 className="text-xl font-semibold text-gray-900">精选学习资源</h2>
             <span className="text-sm text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
               {node.resources.length} 条
             </span>
           </div>
-          <div className="space-y-3">
-            {node.resources.map((resource, index) => (
-              <ResourceCard key={index} resource={resource} />
-            ))}
-          </div>
+
+          {/* 类型过滤 chips：移动端横向可滚动 */}
+          {presentTypes.length > 1 && (
+            <div className="overflow-x-auto pb-2 mb-6">
+              <div className="flex gap-2 whitespace-nowrap">
+                {/* 全部 chip */}
+                <button
+                  onClick={() => setActiveType('all')}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    activeType === 'all'
+                      ? 'bg-gray-800 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  全部
+                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                    activeType === 'all' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-500'
+                  }`}>
+                    {node.resources.length}
+                  </span>
+                </button>
+
+                {/* 各类型 chip */}
+                {presentTypes.map(type => {
+                  const count = node.resources.filter(r => r.type === type).length;
+                  const isActive = activeType === type;
+                  return (
+                    <button
+                      key={type}
+                      onClick={() => setActiveType(type)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                        isActive
+                          ? 'bg-gray-800 text-white'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {TYPE_ICONS[type]} {TYPE_LABELS[type]}
+                      <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                        isActive ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-500'
+                      }`}>
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* 资源列表 */}
+          {activeType === 'all' ? (
+            /* 全部视图：按类型分组，带 section header */
+            <div className="space-y-8">
+              {presentTypes.map(type => {
+                const group = node.resources.filter(r => r.type === type);
+                return (
+                  <div key={type}>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-base font-semibold text-gray-700">
+                        {TYPE_ICONS[type]} {TYPE_LABELS[type]}
+                      </span>
+                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                        {group.length}
+                      </span>
+                    </div>
+                    <div className="space-y-3">
+                      {group.map((resource, index) => (
+                        <ResourceCard key={index} resource={resource} />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : filteredResources.length > 0 ? (
+            /* 单类型视图：无 section header */
+            <div className="space-y-3">
+              {filteredResources.map((resource, index) => (
+                <ResourceCard key={index} resource={resource} />
+              ))}
+            </div>
+          ) : (
+            /* 空状态 */
+            <div className="text-center py-12 text-gray-400">
+              该分类暂无资源
+            </div>
+          )}
         </section>
 
         {/* Back */}
