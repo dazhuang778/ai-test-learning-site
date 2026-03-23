@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(vercel:*)",
+      "Bash(gh auth:*)",
+      "Bash(openspec status:*)",
+      "Bash(git pull:*)",
+      "Bash(openspec new:*)",
+      "Bash(openspec instructions:*)",
+      "Bash(node -e \"require\\(''remark''\\); require\\(''remark-html''\\); console.log\\(''ok''\\)\")",
+      "Bash(node -e \"const r = require\\(''remark''\\); const h = require\\(''remark-html''\\); console.log\\(typeof r, typeof h\\)\")",
+      "Bash(node -e \"const {remark} = require\\(''remark''\\); const html = require\\(''remark-html''\\); console.log\\(typeof remark, typeof html\\)\")",
+      "Bash(node -e \":*)"
+    ]
+  }
+}
