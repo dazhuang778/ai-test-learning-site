@@ -12,7 +12,15 @@
       "Bash(node -e \"require\\(''remark''\\); require\\(''remark-html''\\); console.log\\(''ok''\\)\")",
       "Bash(node -e \"const r = require\\(''remark''\\); const h = require\\(''remark-html''\\); console.log\\(typeof r, typeof h\\)\")",
       "Bash(node -e \"const {remark} = require\\(''remark''\\); const html = require\\(''remark-html''\\); console.log\\(typeof remark, typeof html\\)\")",
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist:*)",
+      "Bash(cmd.exe /c \"tasklist /FI \\\\\"PID eq 3448\\\\\" /FO LIST 2>&1\")",
+      "Bash(cmd.exe /c \"tasklist /FI \\\\\"PID eq 3448\\\\\"\")",
+      "Bash(cmd.exe /c \"wmic process where ProcessId=3448 get Name,CommandLine 2>&1\")",
+      "Bash(cmd.exe /c \"taskkill /PID 3448 /F\")",
+      "Bash(powershell -Command \"Stop-Process -Id 3448 -Force\" 2>&1)",
+      "Bash(openspec list:*)"
     ]
   }
 }
