@@ -5,6 +5,7 @@
 ## 功能特性
 
 - **可视化知识图谱** — 4层级8节点，点击节点进入详情页
+- **节点正文展示** — 详情页在简介后渲染 Markdown 正文内容（可选）
 - **精选外链资源** — 每个知识节点含3-4条精选文章/课程/工具链接
 - **移动端适配** — 手机端自动切换为列表视图
 - **纯静态部署** — 无服务器，支持 Vercel / GitHub Pages
@@ -74,7 +75,8 @@ resources:
     description: 资源简短描述
 ---
 
-（正文可选，目前未在页面展示）
+（可选）在此编写节点的详细说明，支持标准 Markdown 格式。
+内容将展示在详情页的简介与精选资源列表之间。
 ```
 
 ### 修改已有资源
@@ -107,6 +109,7 @@ assetPrefix: '/repo-name/',
 |------|------|
 | Next.js 14 | 静态站点框架（Pages Router） |
 | TypeScript | 类型安全 |
-| Tailwind CSS | 样式 |
+| Tailwind CSS + Typography | 样式与正文排版 |
 | @xyflow/react | 知识图谱可视化 |
 | gray-matter | Markdown frontmatter 解析 |
+| remark + remark-html | Markdown 正文转 HTML |
