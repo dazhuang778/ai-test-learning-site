@@ -18,4 +18,5 @@ export interface KnowledgeNode {
   parent: string | null;
   description: string;
   resources: Resource[];
+  body?: string;
 }

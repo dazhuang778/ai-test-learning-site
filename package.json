@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.19",
     "@xyflow/react": "^12.3.6",
     "gray-matter": "^4.0.3",
     "next": "^14.2.18",

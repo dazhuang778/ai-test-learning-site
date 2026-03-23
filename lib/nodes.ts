@@ -9,7 +9,7 @@ const REQUIRED_FIELDS = ['slug', 'title', 'level', 'stage', 'difficulty', 'descr
 const VALID_RESOURCE_TYPES: ResourceType[] = ['article', 'video', 'course', 'tool'];
 const VALID_STAGES: NodeStage[] = ['入门', '进阶', '高阶'];
 
-function validateNode(data: Record<string, unknown>, filename: string): KnowledgeNode | null {
+function validateNode(data: Record<string, unknown>, filename: string, body?: string): KnowledgeNode | null {
   for (const field of REQUIRED_FIELDS) {
     if (data[field] === undefined || data[field] === null) {
       console.warn(`[content] ${filename}: Missing required field "${field}"`);
@@ -58,6 +58,7 @@ function validateNode(data: Record<string, unknown>, filename: string): Knowledg
     parent: data.parent ? String(data.parent) : null,
     description: String(data.description),
     resources,
+    body: body?.trim() || undefined,
   };
 }
 
@@ -73,8 +74,8 @@ export function getAllNodes(): KnowledgeNode[] {
   for (const file of files) {
     const filePath = path.join(NODES_DIR, file);
     const raw = fs.readFileSync(filePath, 'utf-8');
-    const { data } = matter(raw);
-    const node = validateNode(data as Record<string, unknown>, file);
+    const { data, content } = matter(raw);
+    const node = validateNode(data as Record<string, unknown>, file, content);
     if (node) nodes.push(node);
   }
 

@@ -1,5 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
+import { remark } from 'remark';
+import remarkHtml from 'remark-html';
 import Layout from '../../components/Layout';
 import ResourceCard from '../../components/ResourceCard';
 import { getAllNodes, getNodeBySlug } from '../../lib/nodes';
@@ -20,9 +22,10 @@ const STAGE_STYLES: Record<string, string> = {
 
 interface NodePageProps {
   node: KnowledgeNode;
+  bodyHtml: string | null;
 }
 
-export default function NodePage({ node }: NodePageProps) {
+export default function NodePage({ node, bodyHtml }: NodePageProps) {
   return (
     <Layout title={node.title} description={node.description}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -57,6 +60,14 @@ export default function NodePage({ node }: NodePageProps) {
           <h1 className="text-3xl font-bold text-gray-900 mb-4">{node.title}</h1>
           <p className="text-gray-600 text-lg leading-relaxed">{node.description}</p>
         </header>
+
+        {/* Body */}
+        {bodyHtml && (
+          <div
+            className="prose prose-gray max-w-none mb-10"
+            dangerouslySetInnerHTML={{ __html: bodyHtml }}
+          />
+        )}
 
         {/* Resources */}
         <section>
@@ -99,5 +110,12 @@ export const getStaticProps: GetStaticProps<NodePageProps> = async ({ params }) 
   const slug = params?.slug as string;
   const node = getNodeBySlug(slug);
   if (!node) return { notFound: true };
-  return { props: { node } };
+
+  let bodyHtml: string | null = null;
+  if (node.body) {
+    const processed = await remark().use(remarkHtml).process(node.body);
+    bodyHtml = String(processed);
+  }
+
+  return { props: { node, bodyHtml } };
 };
