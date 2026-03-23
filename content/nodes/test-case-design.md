@@ -51,6 +51,10 @@ resources:
     url: https://katalon.com/katalon-studio
     type: tool
     description: 开源的一体化测试自动化框架，内置 AI 辅助用例设计和脚本生成，支持 Web、API、移动端测试。
+  - title: ISTQB 测试设计技术完整讲解
+    url: https://www.youtube.com/watch?v=6_ZIVBV7yhg
+    type: video
+    description: 系统讲解 ISTQB 测试分析与设计阶段，涵盖等价类划分、边界值分析、决策表等核心测试设计技术。
 
 ---
 

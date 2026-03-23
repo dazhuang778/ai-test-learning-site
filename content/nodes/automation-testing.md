@@ -51,6 +51,14 @@ resources:
     url: https://www.testim.io/
     type: tool
     description: 利用机器学习定位页面元素，提升测试稳定性，支持快速创建和维护 Web 自动化测试。
+  - title: Software Testing with Playwright — freeCodeCamp
+    url: https://www.youtube.com/watch?v=Jk8DcFuGTWA
+    type: video
+    description: freeCodeCamp 出品的 Playwright 完整实战课，涵盖电商应用测试、AI 自愈测试与 CI/CD 集成全流程。
+  - title: Cursor AI 让编码效率提升 159%
+    url: https://www.youtube.com/watch?v=yk9lXobJ95E
+    type: video
+    description: 完整演示用 Cursor AI 快速生成和修改测试脚本，直观感受 AI 辅助自动化测试的效率飞跃。
 
 ---
 

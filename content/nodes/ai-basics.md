@@ -55,6 +55,18 @@ resources:
     url: https://www.deeplearning.ai/short-courses/prompt-engineering-with-anthropic-claude-3/
     type: course
     description: DeepLearning.AI 与 Anthropic 联合推出的免费短课，专注 Claude 提示技巧，含多轮对话和工具使用。
+  - title: 大语言模型入门讲座 — Andrej Karpathy
+    url: https://www.youtube.com/watch?v=zjkBMFhNj_g
+    type: video
+    description: Karpathy 1小时入门讲座，涵盖 LLM 训练原理、推理过程与"LLM操作系统"概念，适合作为 AI 学习起点。
+  - title: Transformer 架构可视化 — 3Blue1Brown
+    url: https://www.youtube.com/watch?v=wjZofJX0v4M
+    type: video
+    description: 动画逐层可视化 Transformer 工作原理，含词嵌入与整体数据流，直观理解 LLM 的底层结构。
+  - title: Attention 机制逐步拆解 — 3Blue1Brown
+    url: https://www.youtube.com/watch?v=eMlx5fFNoYc
+    type: video
+    description: 深度可视化多头注意力机制计算过程，是理解"为什么 LLM 能理解上下文"的最佳视频资源。
 
 ---
 

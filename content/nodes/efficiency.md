@@ -51,6 +51,14 @@ resources:
     url: https://cloud.google.com/blog/products/devops-sre/dora-2023-report
     type: article
     description: Google DORA 研究报告，揭示高效团队的测试与 DevOps 实践指标，为 AI 赋能测试效能提升提供数据基准。
+  - title: 最佳 Cursor AI 工作流实战
+    url: https://www.youtube.com/watch?v=2PjmPU07KNs
+    type: video
+    description: 揭示高效使用 Cursor AI 提升开发测试效能的核心工作流，含 AI 辅助代码审查与任务拆解实操演示。
+  - title: 让 AI 审查自己的代码 — Cursor 实战
+    url: https://www.youtube.com/watch?v=vOlAniUTlCY
+    type: video
+    description: 演示如何用 Cursor AI 进行代码自我审查，实现开发效率与代码质量的系统性双提升。
 
 ---
 

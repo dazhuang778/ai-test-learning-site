@@ -39,6 +39,10 @@ resources:
     url: https://abseil.io/resources/swe-book
     type: article
     description: Google 工程团队开源的《软件工程》书籍，包含大规模软件缺陷管理、测试文化建设的权威实践。
+  - title: 实战演示：用 LLM 辅助代码调试与根因分析 — Andrej Karpathy
+    url: https://www.youtube.com/watch?v=EWvNQjAaOHw
+    type: video
+    description: Karpathy 2小时实战视频，演示如何用 ChatGPT/Claude 辅助代码调试、错误分析与技术文档查询。
 
 ---
 

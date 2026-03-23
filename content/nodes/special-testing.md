@@ -55,6 +55,14 @@ resources:
     url: https://netflix.github.io/chaosmonkey/
     type: tool
     description: Netflix 开源的混沌工程工具，随机终止生产环境实例以验证系统韧性，结合 AI 可辅助故障分析与复盘。
+  - title: Web 安全核心概念速览 — Fireship
+    url: https://fireship.io/lessons/7-security-concepts-hacks-web-developers/
+    type: video
+    description: Fireship 快速讲解 XSS、CSRF、SQL注入等7大 Web 安全漏洞原理与防御方法，适合测试工程师建立安全测试基础认知。
+  - title: k6 性能测试入门 — 官方文档视频教程
+    url: https://grafana.com/docs/k6/latest/get-started/running-k6/
+    type: video
+    description: Grafana k6 官方入门指南，含嵌入式视频演示，从安装到运行第一个负载测试脚本全程图文+视频讲解。
 
 ---
 

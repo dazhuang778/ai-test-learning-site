@@ -43,6 +43,14 @@ resources:
     url: https://learn.microsoft.com/zh-cn/archive/msdn-magazine/2013/february/model-based-testing-from-requirements-to-tests-with-spec-explorer
     type: article
     description: 微软 MSDN 经典文章，介绍模型驱动测试方法论，帮助从需求文档系统性推导测试用例覆盖。
+  - title: BDD 入门视频课程 — Cucumber School
+    url: https://school.cucumber.io/
+    type: video
+    description: Cucumber 官方免费视频课程，系统讲解 BDD 思维与 Gherkin 语法，适合测试工程师快速上手行为驱动开发。
+  - title: ISTQB 软件测试过程全流程讲解
+    url: https://www.youtube.com/watch?v=6_ZIVBV7yhg
+    type: video
+    description: 完整讲解 ISTQB 软件测试流程，涵盖需求评审、测试分析与设计等各阶段核心活动。
 
 ---
 

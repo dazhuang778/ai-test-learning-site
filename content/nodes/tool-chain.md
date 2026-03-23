@@ -55,6 +55,14 @@ resources:
     url: https://www.cognition.ai/blog/introducing-devin
     type: tool
     description: Cognition 推出的自主 AI 软件工程师，可独立完成编写测试、修复 Bug 等复杂任务，代表 AI 测试智能化的前沿方向。
+  - title: Cursor AI 完整入门教程
+    url: https://www.youtube.com/watch?v=yk9lXobJ95E
+    type: video
+    description: 完整演示 Cursor AI 编辑器核心功能，含 Composer 多文件生成与对话式重构，是上手 AI 测试工具链的最快路径。
+  - title: 无人谈及的 Cursor 最佳工作流
+    url: https://www.youtube.com/watch?v=2PjmPU07KNs
+    type: video
+    description: 深度展示 Cursor 与 GitHub Copilot 核心差异，揭示最高效的 AI 辅助开发测试工作流与实操技巧。
 
 ---
 
