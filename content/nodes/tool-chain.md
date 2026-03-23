@@ -19,6 +19,10 @@ resources:
     url: https://www.tabnine.com/
     type: tool
     description: 企业级 AI 代码助手，支持私有化部署，适合对数据安全有要求的团队使用。
+  - title: LangChain Python 官方文档
+    url: https://docs.langchain.com/oss/python/langchain/overview
+    type: article
+    description: LangChain 官方 Python SDK 文档，构建 LLM 应用的核心框架，可与测试工具链集成实现 AI 辅助测试自动化。
   - title: AI 测试工具全景探索 - Ministry of Testing
     url: https://www.ministryoftesting.com/articles/an-exploration-of-10-ai-software-testing-tools
     type: article
