@@ -8,7 +8,8 @@
 - **渐变视觉设计** — Hero 区蓝紫渐变、详情页 level 配色 Banner、节点卡片渐变动效
 - **节点正文展示** — 详情页在简介后渲染 Markdown 正文内容（可选）
 - **资源分类展示** — 精选资源按类型（课程/工具/文章/视频）分组，支持 Tab 过滤快速定位
-- **海量精选资源** — 8个知识节点共收录 86 条高质量资源，链接已全部验证有效
+- **海量精选资源** — 8个知识节点共收录 101 条高质量资源，涵盖文章、课程、工具、视频四类
+- **链接全量验证** — 所有资源链接经过有效性核验，失效链接已替换为最新地址
 - **移动端适配** — 手机端自动切换列表视图，资源过滤 chips 支持横向滚动
 - **纯静态部署** — 无服务器，支持 Vercel / GitHub Pages
 
@@ -43,14 +44,14 @@ npm run build
 ```
 content/
 └── nodes/
-    ├── ai-basics.md              # Level 0 · AI基础认知      (12条资源)
-    ├── requirements-analysis.md  # Level 1 · 需求分析        ( 9条资源)
-    ├── test-case-design.md       # Level 1 · 用例设计        (11条资源)
-    ├── defect-management.md      # Level 1 · 缺陷管理        ( 8条资源)
-    ├── automation-testing.md     # Level 2 · 自动化测试      (11条资源)
-    ├── special-testing.md        # Level 2 · 专项测试        (12条资源)
-    ├── tool-chain.md             # Level 3 · 工具链          (12条资源)
-    └── efficiency.md             # Level 3 · 效能提升        (11条资源)
+    ├── ai-basics.md              # Level 0 · AI基础认知      (15条资源)
+    ├── requirements-analysis.md  # Level 1 · 需求分析        (11条资源)
+    ├── test-case-design.md       # Level 1 · 用例设计        (12条资源)
+    ├── defect-management.md      # Level 1 · 缺陷管理        ( 9条资源)
+    ├── automation-testing.md     # Level 2 · 自动化测试      (13条资源)
+    ├── special-testing.md        # Level 2 · 专项测试        (14条资源)
+    ├── tool-chain.md             # Level 3 · 工具链          (14条资源)
+    └── efficiency.md             # Level 3 · 效能提升        (13条资源)
 ```
 
 ### 添加新知识节点
@@ -85,14 +86,14 @@ resources:
 
 直接编辑对应节点的 `.md` 文件，修改 `resources` 列表，推送后自动生效。
 
-资源 `type` 共四种，对应详情页的分组显示：
+资源 `type` 共四种，对应详情页的分组显示顺序：
 
-| type | 含义 | 图标 |
-|------|------|------|
-| `course` | 课程（优先展示） | 🎓 |
-| `tool` | 工具 | 🛠️ |
-| `article` | 文章 | 📄 |
-| `video` | 视频 | 🎬 |
+| type | 含义 | 图标 | 展示顺序 |
+|------|------|------|---------|
+| `course` | 课程 | 🎓 | 第1组 |
+| `tool` | 工具 | 🛠️ | 第2组 |
+| `article` | 文章 | 📄 | 第3组 |
+| `video` | 视频 | 🎬 | 第4组 |
 
 ## 部署
 
