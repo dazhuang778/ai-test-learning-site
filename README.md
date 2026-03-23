@@ -7,7 +7,7 @@
 - **可视化知识图谱** — 4层级8节点，点击节点进入详情页
 - **渐变视觉设计** — Hero 区蓝紫渐变、详情页 level 配色 Banner、节点卡片渐变动效
 - **节点正文展示** — 详情页在简介后渲染 Markdown 正文内容（可选）
-- **精选外链资源** — 每个知识节点含3-4条精选文章/课程/工具链接，图标+色条快速辨识
+- **精选外链资源** — 每个知识节点含多条精选文章/课程/工具链接（共 50+ 条高质量资源），图标+色条快速辨识
 - **移动端适配** — 手机端自动切换为列表视图
 - **纯静态部署** — 无服务器，支持 Vercel / GitHub Pages
 
@@ -83,6 +83,23 @@ resources:
 ### 修改已有资源
 
 直接编辑对应节点的 `.md` 文件，修改 `resources` 列表，推送后自动生效。
+
+### 资源维护说明
+
+各节点当前资源数量（2025年3月更新）：
+
+| 节点文件 | 资源条数 | 说明 |
+|---------|---------|------|
+| `ai-basics.md` | 12 | 新增 Learn Prompting、DAIR.AI、Google AI Dev 等 |
+| `automation-testing.md` | 11 | 新增 Qodo AI、Diffblue、Playwright MCP、Mabl 等 |
+| `defect-management.md` | 8 | 新增 Sentry AI、Jira AI、BugBug 等 |
+| `efficiency.md` | 11 | 新增 GitLab Duo、Qase、n8n、DORA Metrics 等 |
+| `requirements-analysis.md` | 9 | 新增 Cucumber BDD、Martin Fowler、IBM 需求工程等 |
+| `special-testing.md` | 12 | 新增 Burp Suite、Locust、Trivy、Chaos Monkey 等 |
+| `test-case-design.md` | 11 | 新增 Qodo AI、Pairwise 工具、状态迁移测试等 |
+| `tool-chain.md` | 12 | 新增 Windsurf、Continue.dev、Codeium、Applitools 等 |
+
+> 资源链接已全部经过有效性验证，失效链接已替换为最新地址。
 
 ## 部署
 
