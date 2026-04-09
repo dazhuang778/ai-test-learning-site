@@ -12,6 +12,9 @@
 - **链接全量验证** — 所有资源链接经过有效性核验，失效链接已替换为最新地址
 - **移动端适配** — 手机端自动切换列表视图，资源过滤 chips 支持横向滚动
 - **纯静态部署** — 无服务器，支持 Vercel / GitHub Pages
+- **暗色模式** — 支持手动切换主题，自动跟随系统偏好
+- **全局搜索** — 支持模糊搜索知识节点和资源标题
+- **代码质量** — 集成 ESLint + Prettier 规范
 
 ## 快速开始
 
@@ -28,6 +31,14 @@ npm run dev
 ```
 
 打开 [http://localhost:3000](http://localhost:3000) 查看。
+
+### 代码检查
+
+```bash
+npm run lint          # ESLint 检查
+npm run format        # 自动格式化
+npm run format:check  # 检查格式
+```
 
 ### 构建静态文件
 
@@ -127,3 +138,40 @@ assetPrefix: '/repo-name/',
 | @xyflow/react | 知识图谱可视化 |
 | gray-matter | Markdown frontmatter 解析 |
 | remark + remark-html | Markdown 正文转 HTML |
+| Fuse.js | 客户端模糊搜索 |
+| ESLint + Prettier | 代码规范 |
+
+## SEO 优化
+
+项目已内置以下 SEO 特性：
+
+- Open Graph / Twitter Card meta 标签
+- sitemap.xml 站点地图（自动包含所有页面）
+- robots.txt 配置
+- RSS 订阅支持
+
+## 项目结构
+
+```
+ai-test-study/
+├── components/          # React 组件
+│   ├── Layout.tsx      # 布局组件（含头部/底部）
+│   ├── SearchBox.tsx   # 搜索框组件
+│   ├── KnowledgeGraph.tsx   # 知识图谱
+│   ├── KnowledgeNodeCard.tsx # 图谱节点卡片
+│   ├── NodeListView.tsx     # 移动端列表视图
+│   └── ResourceCard.tsx     # 资源卡片
+├── content/
+│   └── nodes/          # 知识节点 Markdown 文件
+├── lib/
+│   ├── nodes.ts        # 节点数据读取
+│   ├── graph.ts        # 图谱数据构建
+│   ├── types.ts        # TypeScript 类型定义
+│   ├── use-search.ts   # 搜索 Hook
+│   └── theme-context.tsx # 主题 Context
+├── pages/              # Next.js 页面
+├── public/             # 静态资源
+│   ├── sitemap.xml     # 站点地图
+│   └── robots.txt      # 搜索引擎配置
+└── styles/             # 全局样式
+```

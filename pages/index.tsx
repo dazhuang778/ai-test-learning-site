@@ -19,10 +19,30 @@ const KnowledgeGraph = dynamic(() => import('../components/KnowledgeGraph'), {
 });
 
 const LEVEL_LEGEND = [
-  { level: 0, label: '前置基础', color: 'bg-purple-50 border-purple-200 text-purple-800' },
-  { level: 1, label: '核心技能', color: 'bg-blue-50 border-blue-200 text-blue-800' },
-  { level: 2, label: '进阶技能', color: 'bg-green-50 border-green-200 text-green-800' },
-  { level: 3, label: '综合实践', color: 'bg-orange-50 border-orange-200 text-orange-800' },
+  {
+    level: 0,
+    label: '前置基础',
+    color:
+      'bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300',
+  },
+  {
+    level: 1,
+    label: '核心技能',
+    color:
+      'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300',
+  },
+  {
+    level: 2,
+    label: '进阶技能',
+    color:
+      'bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300',
+  },
+  {
+    level: 3,
+    label: '综合实践',
+    color:
+      'bg-orange-50 dark:bg-orange-900/30 border-orange-200 dark:border-orange-800 text-orange-800 dark:text-orange-300',
+  },
 ] as const;
 
 interface HomeProps {
@@ -65,7 +85,7 @@ export default function Home({ nodes }: HomeProps) {
           {isMobile ? (
             <NodeListView nodes={nodes} />
           ) : (
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
               <KnowledgeGraph nodes={nodes} />
             </div>
           )}
@@ -85,7 +105,7 @@ export default function Home({ nodes }: HomeProps) {
         </div>
 
         {/* Tip */}
-        <p className="text-center text-xs text-gray-400 mt-6">
+        <p className="text-center text-xs text-gray-400 dark:text-slate-500 mt-6">
           {isMobile ? '点击卡片查看详情' : '点击图谱节点查看详情 · 支持缩放和平移'}
         </p>
       </div>

@@ -5,11 +5,23 @@ import { KnowledgeNode, Resource, ResourceType, NodeStage } from './types';
 
 const NODES_DIR = path.join(process.cwd(), 'content', 'nodes');
 
-const REQUIRED_FIELDS = ['slug', 'title', 'level', 'stage', 'difficulty', 'description', 'resources'];
+const REQUIRED_FIELDS = [
+  'slug',
+  'title',
+  'level',
+  'stage',
+  'difficulty',
+  'description',
+  'resources',
+];
 const VALID_RESOURCE_TYPES: ResourceType[] = ['article', 'video', 'course', 'tool'];
 const VALID_STAGES: NodeStage[] = ['入门', '进阶', '高阶'];
 
-function validateNode(data: Record<string, unknown>, filename: string, body?: string): KnowledgeNode | null {
+function validateNode(
+  data: Record<string, unknown>,
+  filename: string,
+  body?: string
+): KnowledgeNode | null {
   for (const field of REQUIRED_FIELDS) {
     if (data[field] === undefined || data[field] === null) {
       console.warn(`[content] ${filename}: Missing required field "${field}"`);
@@ -24,7 +36,9 @@ function validateNode(data: Record<string, unknown>, filename: string, body?: st
   }
 
   if (!VALID_STAGES.includes(data.stage as NodeStage)) {
-    console.warn(`[content] ${filename}: Invalid stage "${data.stage}", must be one of: ${VALID_STAGES.join(', ')}`);
+    console.warn(
+      `[content] ${filename}: Invalid stage "${data.stage}", must be one of: ${VALID_STAGES.join(', ')}`
+    );
     return null;
   }
 
@@ -43,7 +57,9 @@ function validateNode(data: Record<string, unknown>, filename: string, body?: st
       return {
         title: String(r.title || ''),
         url: String(r.url || ''),
-        type: (VALID_RESOURCE_TYPES.includes(r.type as ResourceType) ? r.type : 'article') as ResourceType,
+        type: (VALID_RESOURCE_TYPES.includes(r.type as ResourceType)
+          ? r.type
+          : 'article') as ResourceType,
         description: String(r.description || ''),
       };
     })

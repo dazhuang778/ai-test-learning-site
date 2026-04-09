@@ -41,7 +41,9 @@ export default function KnowledgeNodeCard({ data }: NodeProps) {
         />
       )}
 
-      <div className={`text-xs font-medium px-1.5 py-0.5 rounded-full inline-block mb-2 ${style.badge}`}>
+      <div
+        className={`text-xs font-medium px-1.5 py-0.5 rounded-full inline-block mb-2 ${style.badge}`}
+      >
         {style.label}
       </div>
 

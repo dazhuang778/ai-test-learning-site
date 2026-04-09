@@ -1,0 +1,8 @@
+.next
+out
+node_modules
+*.md
+.gitignore
+.next.env.d.ts
+openspec
+.github

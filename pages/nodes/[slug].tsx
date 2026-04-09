@@ -23,9 +23,9 @@ const LEVEL_GRADIENTS: Record<number, string> = {
 };
 
 const STAGE_STYLES: Record<string, string> = {
-  '入门': 'bg-white/20 text-white',
-  '进阶': 'bg-white/20 text-white',
-  '高阶': 'bg-white/20 text-white',
+  入门: 'bg-white/20 text-white',
+  进阶: 'bg-white/20 text-white',
+  高阶: 'bg-white/20 text-white',
 };
 
 // 资源分组顺序：课程 → 工具 → 文章 → 视频（学习路径优先）
@@ -57,14 +57,11 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
   const [activeType, setActiveType] = useState<string>('all');
 
   // 当前节点实际存在的类型，按 TYPE_ORDER 排序
-  const presentTypes = TYPE_ORDER.filter(t =>
-    node.resources.some(r => r.type === t)
-  );
+  const presentTypes = TYPE_ORDER.filter(t => node.resources.some(r => r.type === t));
 
   // 当前展示的资源（过滤后）
-  const filteredResources = activeType === 'all'
-    ? node.resources
-    : node.resources.filter(r => r.type === activeType);
+  const filteredResources =
+    activeType === 'all' ? node.resources : node.resources.filter(r => r.type === activeType);
 
   return (
     <Layout title={node.title} description={node.description}>
@@ -85,7 +82,9 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
             <span className="text-xs font-medium bg-white/20 text-white px-2.5 py-1 rounded-full">
               {LEVEL_LABELS[node.level]}
             </span>
-            <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STAGE_STYLES[node.stage] ?? 'bg-white/20 text-white'}`}>
+            <span
+              className={`text-xs font-medium px-2.5 py-1 rounded-full ${STAGE_STYLES[node.stage] ?? 'bg-white/20 text-white'}`}
+            >
               {node.stage}
             </span>
             <span className="text-sm">
@@ -97,7 +96,9 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 drop-shadow">{node.title}</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 drop-shadow">
+            {node.title}
+          </h1>
           <p className="text-white/80 text-lg leading-relaxed">{node.description}</p>
         </div>
       </div>
@@ -116,8 +117,8 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
         <section>
           {/* 标题行：总数 badge 不随过滤变化 */}
           <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">精选学习资源</h2>
-            <span className="text-sm text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">精选学习资源</h2>
+            <span className="text-sm text-gray-400 dark:text-slate-500 bg-gray-100 dark:bg-slate-700 px-2 py-0.5 rounded-full">
               {node.resources.length} 条
             </span>
           </div>
@@ -131,14 +132,18 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
                   onClick={() => setActiveType('all')}
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     activeType === 'all'
-                      ? 'bg-gray-800 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-gray-800 dark:bg-white text-white dark:text-gray-900'
+                      : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600'
                   }`}
                 >
                   全部
-                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${
-                    activeType === 'all' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-500'
-                  }`}>
+                  <span
+                    className={`text-xs px-1.5 py-0.5 rounded-full ${
+                      activeType === 'all'
+                        ? 'bg-white/20 text-white'
+                        : 'bg-gray-200 dark:bg-slate-600 text-gray-500 dark:text-slate-400'
+                    }`}
+                  >
                     {node.resources.length}
                   </span>
                 </button>
@@ -153,14 +158,18 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
                       onClick={() => setActiveType(type)}
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                         isActive
-                          ? 'bg-gray-800 text-white'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          ? 'bg-gray-800 dark:bg-white text-white dark:text-gray-900'
+                          : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600'
                       }`}
                     >
                       {TYPE_ICONS[type]} {TYPE_LABELS[type]}
-                      <span className={`text-xs px-1.5 py-0.5 rounded-full ${
-                        isActive ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-500'
-                      }`}>
+                      <span
+                        className={`text-xs px-1.5 py-0.5 rounded-full ${
+                          isActive
+                            ? 'bg-white/20 text-white'
+                            : 'bg-gray-200 dark:bg-slate-600 text-gray-500 dark:text-slate-400'
+                        }`}
+                      >
                         {count}
                       </span>
                     </button>
@@ -179,7 +188,7 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
                 return (
                   <div key={type}>
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-base font-semibold text-gray-700">
+                      <span className="text-base font-semibold text-gray-700 dark:text-slate-300">
                         {TYPE_ICONS[type]} {TYPE_LABELS[type]}
                       </span>
                       <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
@@ -204,9 +213,7 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
             </div>
           ) : (
             /* 空状态 */
-            <div className="text-center py-12 text-gray-400">
-              该分类暂无资源
-            </div>
+            <div className="text-center py-12 text-gray-400">该分类暂无资源</div>
           )}
         </section>
 
