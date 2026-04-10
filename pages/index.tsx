@@ -8,26 +8,22 @@ const LEVEL_LEGEND = [
   {
     level: 0,
     label: '前置基础',
-    color:
-      'bg-purple-900/20 border-purple-500/50 text-purple-300',
+    color: 'bg-purple-500/10 border-purple-500/50 text-purple-400',
   },
   {
     level: 1,
     label: '核心技能',
-    color:
-      'bg-blue-900/20 border-blue-500/50 text-blue-300',
+    color: 'bg-cyan-500/10 border-cyan-500/50 text-cyan-400',
   },
   {
     level: 2,
     label: '进阶技能',
-    color:
-      'bg-emerald-900/20 border-emerald-500/50 text-emerald-300',
+    color: 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400',
   },
   {
     level: 3,
     label: '综合实践',
-    color:
-      'bg-orange-900/20 border-orange-500/50 text-orange-300',
+    color: 'bg-orange-500/10 border-orange-500/50 text-orange-400',
   },
 ] as const;
 
@@ -84,7 +80,7 @@ export default function Home({ nodes }: HomeProps) {
         </div>
 
         {/* Tip */}
-        <p className="text-center text-xs text-gray-500 dark:text-slate-500 mt-6">
+        <p className="text-center text-xs text-gray-500 mt-6">
           点击卡片查看详情
         </p>
       </div>

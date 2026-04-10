@@ -3,23 +3,23 @@ import { KnowledgeNode } from '../lib/types';
 
 const LEVEL_STYLES: Record<number, { card: string; badge: string; label: string }> = {
   0: {
-    card: 'bg-gradient-to-br from-purple-100 to-violet-200 border-purple-400 hover:border-purple-300',
-    badge: 'bg-purple-200 text-purple-800',
+    card: 'bg-gradient-to-br from-slate-900 to-purple-950 border-purple-500 hover:border-purple-400 hover:shadow-purple-500/30',
+    badge: 'bg-purple-500/20 text-purple-400 border border-purple-500/50',
     label: 'Level 0 · 前置基础',
   },
   1: {
-    card: 'bg-gradient-to-br from-blue-100 to-cyan-200 border-cyan-400 hover:border-cyan-300',
-    badge: 'bg-blue-200 text-blue-800',
+    card: 'bg-gradient-to-br from-slate-900 to-blue-950 border-cyan-500 hover:border-cyan-400 hover:shadow-cyan-500/30',
+    badge: 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/50',
     label: 'Level 1 · 核心技能',
   },
   2: {
-    card: 'bg-gradient-to-br from-emerald-100 to-teal-200 border-emerald-400 hover:border-emerald-300',
-    badge: 'bg-emerald-200 text-emerald-800',
+    card: 'bg-gradient-to-br from-slate-900 to-emerald-950 border-emerald-500 hover:border-emerald-400 hover:shadow-emerald-500/30',
+    badge: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50',
     label: 'Level 2 · 进阶技能',
   },
   3: {
-    card: 'bg-gradient-to-br from-orange-100 to-amber-200 border-orange-400 hover:border-orange-300',
-    badge: 'bg-orange-200 text-orange-800',
+    card: 'bg-gradient-to-br from-slate-900 to-orange-950 border-orange-500 hover:border-orange-400 hover:shadow-orange-500/30',
+    badge: 'bg-orange-500/20 text-orange-400 border border-orange-500/50',
     label: 'Level 3 · 综合实践',
   },
 };
@@ -55,7 +55,7 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
             <div key={level} className="flex flex-col items-center" style={{ minWidth: '200px', marginRight: '48px' }}>
               {/* Level 标签 */}
               <div className="mb-4">
-                <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${style.badge}`}>
+                <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${style.badge}`}>
                   {style.label}
                 </span>
               </div>
@@ -68,18 +68,18 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
                     href={`/nodes/${node.slug}`}
                     className={`block w-44 px-4 py-3 rounded-xl border-2 cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${style.card}`}
                   >
-                    <div className="font-bold text-gray-900 text-sm leading-snug mb-2">{node.title}</div>
+                    <div className="font-bold text-white text-sm leading-snug mb-2">{node.title}</div>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-600">{node.stage}</span>
+                      <span className="text-xs text-gray-400">{node.stage}</span>
                       <span className="text-xs leading-none">
                         {Array.from({ length: 3 }).map((_, i) => (
-                          <span key={i} className={i < node.difficulty ? 'text-yellow-500' : 'text-gray-300'}>
+                          <span key={i} className={i < node.difficulty ? 'text-yellow-400' : 'text-gray-600'}>
                             ★
                           </span>
                         ))}
                       </span>
                     </div>
-                    <div className="text-xs text-blue-600 mt-2">{node.resources.length} 条资源</div>
+                    <div className="text-xs text-cyan-400 mt-2">{node.resources.length} 条资源</div>
                   </Link>
                 ))}
               </div>
