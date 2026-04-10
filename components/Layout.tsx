@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -14,6 +14,8 @@ const SearchBox = dynamic(() => import('./SearchBox'), {
   ),
 });
 
+const AUTHOR_AVATAR_KEY = 'author_avatar';
+
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;
@@ -23,10 +25,17 @@ interface LayoutProps {
 
 export default function Layout({ children, title, description, nodes = [] }: LayoutProps) {
   const [showSearch, setShowSearch] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string>('');
   const siteTitle = title ? `${title} | AI测试学习` : 'AI测试学习 · 知识图谱';
   const metaDescription =
     description ??
     'AI辅助软件测试学习体系，帮助测试工程师快速掌握AI测试技能，找到适合自己阶段的优质资源。';
+
+  // 加载保存的头像
+  useEffect(() => {
+    const saved = localStorage.getItem(AUTHOR_AVATAR_KEY);
+    if (saved) setAvatarUrl(saved);
+  }, [setAvatarUrl]);
 
   return (
     <>
@@ -77,9 +86,27 @@ export default function Layout({ children, title, description, nodes = [] }: Lay
         </header>
         <main className="flex-1">{children}</main>
         <footer className="bg-slate-900 border-t border-slate-800 py-6 mt-12">
-          <div className="max-w-7xl mx-auto px-4 text-center text-sm text-slate-500 space-y-1">
-            <p>AI测试学习 · 开源知识图谱</p>
-            <p>内容持续更新 · 欢迎贡献资源</p>
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            {/* 底部提示 */}
+            <div className="text-sm text-slate-500 space-y-1 mb-4">
+              <p>AI测试学习 · 开源知识图谱</p>
+              <p>内容持续更新 · 欢迎贡献资源</p>
+            </div>
+
+            {/* 作者栏 */}
+            <div className="inline-flex items-center gap-2 text-sm text-slate-400">
+              <span>@Author:</span>
+              <div className="w-7 h-7 rounded-full overflow-hidden border border-cyan-500/50 shadow-lg shadow-cyan-500/10">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="作者头像" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-cyan-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold">
+                    Z
+                  </div>
+                )}
+              </div>
+              <span className="text-cyan-400 font-medium">Zhuang Zhang</span>
+            </div>
           </div>
         </footer>
       </div>
