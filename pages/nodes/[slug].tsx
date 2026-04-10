@@ -16,16 +16,23 @@ const LEVEL_LABELS: Record<number, string> = {
 };
 
 const LEVEL_GRADIENTS: Record<number, string> = {
-  0: 'from-purple-600 via-violet-600 to-purple-800',
-  1: 'from-blue-600 via-blue-500 to-blue-800',
-  2: 'from-green-600 via-emerald-500 to-green-800',
-  3: 'from-orange-500 via-amber-500 to-orange-700',
+  0: 'from-slate-950 via-purple-950 to-slate-950',
+  1: 'from-slate-950 via-blue-950 to-slate-950',
+  2: 'from-slate-950 via-emerald-950 to-slate-950',
+  3: 'from-slate-950 via-orange-950 to-slate-950',
+};
+
+const LEVEL_ACCENT: Record<number, string> = {
+  0: 'text-purple-400',
+  1: 'text-cyan-400',
+  2: 'text-emerald-400',
+  3: 'text-orange-400',
 };
 
 const STAGE_STYLES: Record<string, string> = {
-  入门: 'bg-white/20 text-white',
-  进阶: 'bg-white/20 text-white',
-  高阶: 'bg-white/20 text-white',
+  入门: 'bg-purple-500/20 text-purple-400 border border-purple-500/50',
+  进阶: 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/50',
+  高阶: 'bg-orange-500/20 text-orange-400 border border-orange-500/50',
 };
 
 // 资源分组顺序：课程 → 工具 → 文章 → 视频（学习路径优先）
@@ -52,6 +59,7 @@ interface NodePageProps {
 
 export default function NodePage({ node, bodyHtml }: NodePageProps) {
   const gradient = LEVEL_GRADIENTS[node.level] ?? LEVEL_GRADIENTS[0];
+  const accent = LEVEL_ACCENT[node.level] ?? LEVEL_ACCENT[0];
 
   // 过滤状态：'all' 或具体 type
   const [activeType, setActiveType] = useState<string>('all');
@@ -65,41 +73,45 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
 
   return (
     <Layout title={node.title} description={node.description}>
-      {/* Banner */}
-      <div className={`bg-gradient-to-br ${gradient} px-4 py-10 sm:py-14`}>
-        <div className="max-w-3xl mx-auto">
+      {/* Banner - 赛博朋克风格 */}
+      <div className={`bg-gradient-to-br ${gradient} px-4 py-10 sm:py-14 relative overflow-hidden`}>
+        {/* 装饰性线条 */}
+        <div className={`absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent ${node.level === 0 ? 'via-purple-500' : node.level === 1 ? 'via-cyan-500' : node.level === 2 ? 'via-emerald-500' : 'via-orange-500'} to-transparent`} />
+        <div className={`absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent ${node.level === 0 ? 'via-purple-500' : node.level === 1 ? 'via-cyan-500' : node.level === 2 ? 'via-emerald-500' : 'via-orange-500'} to-transparent`} />
+
+        <div className="max-w-3xl mx-auto relative z-10">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-white/60 mb-6">
+          <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
             <Link href="/" className="hover:text-white transition-colors">
               知识图谱
             </Link>
             <span>/</span>
-            <span className="text-white/90">{node.title}</span>
+            <span className="text-gray-300">{node.title}</span>
           </nav>
 
           {/* Tags & difficulty */}
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-xs font-medium bg-white/20 text-white px-2.5 py-1 rounded-full">
+            <span className={`text-xs font-medium bg-purple-500/20 ${accent} border border-purple-500/50 px-2.5 py-1 rounded-full`}>
               {LEVEL_LABELS[node.level]}
             </span>
             <span
-              className={`text-xs font-medium px-2.5 py-1 rounded-full ${STAGE_STYLES[node.stage] ?? 'bg-white/20 text-white'}`}
+              className={`text-xs font-medium px-2.5 py-1 rounded-full ${STAGE_STYLES[node.stage] ?? STAGE_STYLES['入门']}`}
             >
               {node.stage}
             </span>
             <span className="text-sm">
               {Array.from({ length: 3 }).map((_, i) => (
-                <span key={i} className={i < node.difficulty ? 'text-yellow-300' : 'text-white/20'}>
+                <span key={i} className={i < node.difficulty ? 'text-yellow-400' : 'text-gray-600'}>
                   ★
                 </span>
               ))}
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 drop-shadow">
+          <h1 className={`text-3xl sm:text-4xl font-bold ${accent} mb-3 drop-shadow`}>
             {node.title}
           </h1>
-          <p className="text-white/80 text-lg leading-relaxed">{node.description}</p>
+          <p className="text-gray-400 text-lg leading-relaxed">{node.description}</p>
         </div>
       </div>
 
@@ -108,7 +120,7 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
         {/* Body */}
         {bodyHtml && (
           <div
-            className="prose prose-gray max-w-none mb-10"
+            className="prose prose-invert max-w-none mb-10"
             dangerouslySetInnerHTML={{ __html: bodyHtml }}
           />
         )}
@@ -117,8 +129,8 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
         <section>
           {/* 标题行：总数 badge 不随过滤变化 */}
           <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">精选学习资源</h2>
-            <span className="text-sm text-gray-400 dark:text-slate-500 bg-gray-100 dark:bg-slate-700 px-2 py-0.5 rounded-full">
+            <h2 className="text-xl font-semibold text-white">精选学习资源</h2>
+            <span className="text-sm text-gray-400 bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
               {node.resources.length} 条
             </span>
           </div>
@@ -132,16 +144,14 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
                   onClick={() => setActiveType('all')}
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     activeType === 'all'
-                      ? 'bg-gray-800 dark:bg-white text-white dark:text-gray-900'
-                      : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600'
+                      ? 'bg-cyan-500 text-white'
+                      : 'bg-slate-800 text-gray-400 border border-slate-700 hover:bg-slate-700'
                   }`}
                 >
                   全部
                   <span
                     className={`text-xs px-1.5 py-0.5 rounded-full ${
-                      activeType === 'all'
-                        ? 'bg-white/20 text-white'
-                        : 'bg-gray-200 dark:bg-slate-600 text-gray-500 dark:text-slate-400'
+                      activeType === 'all' ? 'bg-white/20' : 'bg-slate-700'
                     }`}
                   >
                     {node.resources.length}
@@ -158,16 +168,14 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
                       onClick={() => setActiveType(type)}
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                         isActive
-                          ? 'bg-gray-800 dark:bg-white text-white dark:text-gray-900'
-                          : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600'
+                          ? 'bg-cyan-500 text-white'
+                          : 'bg-slate-800 text-gray-400 border border-slate-700 hover:bg-slate-700'
                       }`}
                     >
                       {TYPE_ICONS[type]} {TYPE_LABELS[type]}
                       <span
                         className={`text-xs px-1.5 py-0.5 rounded-full ${
-                          isActive
-                            ? 'bg-white/20 text-white'
-                            : 'bg-gray-200 dark:bg-slate-600 text-gray-500 dark:text-slate-400'
+                          isActive ? 'bg-white/20' : 'bg-slate-700'
                         }`}
                       >
                         {count}
@@ -188,10 +196,10 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
                 return (
                   <div key={type}>
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-base font-semibold text-gray-700 dark:text-slate-300">
+                      <span className="text-base font-semibold text-gray-300">
                         {TYPE_ICONS[type]} {TYPE_LABELS[type]}
                       </span>
-                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                      <span className="text-xs text-gray-500 bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-full">
                         {group.length}
                       </span>
                     </div>
@@ -213,15 +221,15 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
             </div>
           ) : (
             /* 空状态 */
-            <div className="text-center py-12 text-gray-400">该分类暂无资源</div>
+            <div className="text-center py-12 text-gray-500">该分类暂无资源</div>
           )}
         </section>
 
         {/* Back */}
-        <div className="mt-12 pt-6 border-t border-gray-200">
+        <div className="mt-12 pt-6 border-t border-slate-800">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors"
+            className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
           >
             ← 返回知识图谱
           </Link>

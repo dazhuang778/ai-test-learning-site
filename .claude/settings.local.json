@@ -50,7 +50,8 @@
       "Bash(openspec --help)",
       "Bash(openspec config:*)",
       "Bash(npx kill-port:*)",
-      "Bash(node -e ':*)"
+      "Bash(node -e ':*)",
+      "WebFetch(domain:minimax-algeng-chat-tts.oss-cn-wulanchabu.aliyuncs.com)"
     ]
   }
 }

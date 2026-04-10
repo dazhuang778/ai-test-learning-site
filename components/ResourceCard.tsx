@@ -16,31 +16,31 @@ const TYPE_ICONS: Record<string, string> = {
 
 const TYPE_STYLES: Record<string, { badge: string; bar: string; hover: string }> = {
   article: {
-    badge: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
+    badge: 'bg-blue-500/20 text-blue-400 border border-blue-500/50',
     bar: 'bg-blue-500',
-    hover: 'hover:border-blue-300 dark:hover:border-blue-700',
+    hover: 'hover:border-blue-500 hover:shadow-blue-500/20',
   },
   video: {
-    badge: 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300',
+    badge: 'bg-red-500/20 text-red-400 border border-red-500/50',
     bar: 'bg-red-500',
-    hover: 'hover:border-red-300 dark:hover:border-red-700',
+    hover: 'hover:border-red-500 hover:shadow-red-500/20',
   },
   course: {
-    badge: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
+    badge: 'bg-green-500/20 text-green-400 border border-green-500/50',
     bar: 'bg-green-500',
-    hover: 'hover:border-green-300 dark:hover:border-green-700',
+    hover: 'hover:border-green-500 hover:shadow-green-500/20',
   },
   tool: {
-    badge: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300',
+    badge: 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/50',
     bar: 'bg-indigo-500',
-    hover: 'hover:border-indigo-300 dark:hover:border-indigo-700',
+    hover: 'hover:border-indigo-500 hover:shadow-indigo-500/20',
   },
 };
 
 const DEFAULT_STYLE = {
-  badge: 'bg-gray-100 text-gray-600 dark:bg-slate-700 dark:text-slate-300',
-  bar: 'bg-gray-400',
-  hover: 'hover:border-gray-300 dark:hover:border-slate-600',
+  badge: 'bg-slate-500/20 text-slate-400 border border-slate-500/50',
+  bar: 'bg-slate-500',
+  hover: 'hover:border-slate-500 hover:shadow-slate-500/20',
 };
 
 interface ResourceCardProps {
@@ -52,7 +52,7 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
 
   return (
     <div
-      className={`group flex border border-gray-200 dark:border-slate-700 rounded-xl overflow-hidden bg-white dark:bg-slate-800 transition-all duration-200 hover:shadow-md ${style.hover}`}
+      className={`group flex border border-slate-700 rounded-xl overflow-hidden bg-slate-900 transition-all duration-200 hover:shadow-lg ${style.hover}`}
     >
       <div className={`w-1 flex-shrink-0 ${style.bar}`} />
 
@@ -64,10 +64,10 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
                 {TYPE_ICONS[resource.type] ?? ''} {TYPE_LABELS[resource.type] ?? resource.type}
               </span>
             </div>
-            <h3 className="font-semibold text-gray-900 dark:text-white text-sm leading-snug">
+            <h3 className="font-semibold text-white text-sm leading-snug">
               {resource.title}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-slate-400 mt-1 leading-relaxed">
+            <p className="text-sm text-gray-400 mt-1 leading-relaxed">
               {resource.description}
             </p>
           </div>
@@ -75,7 +75,7 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
             href={resource.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-shrink-0 mt-1 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 group-hover:underline transition-colors"
+            className="flex-shrink-0 mt-1 text-sm font-medium text-cyan-400 hover:text-cyan-300 group-hover:underline transition-colors"
             title={`访问: ${resource.title}`}
           >
             访问 →
