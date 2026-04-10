@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 重要规则
+
+**每次代码更新后，必须执行以下操作**：
+1. 运行 `npm run build` 验证构建成功
+2. 检查端口 3000 是否被占用，如有占用用 `npx kill-port 3000` 释放
+3. 启动开发服务器 `npm run dev`
+4. 告知用户本地访问地址（通常是 http://localhost:3000）
+
 ## 常用命令
 
 ```bash
@@ -44,13 +52,13 @@ pages/nodes/[slug].tsx → 节点详情页（资源列表）
 
 ### 知识图谱渲染
 
-`lib/graph.ts` 将节点按 `level` 分层，水平居中排列，用 `parent` 字段生成连线。图谱组件（`components/KnowledgeGraph.tsx`）使用 `@xyflow/react`，**必须客户端渲染**（`next/dynamic` + `ssr: false`）。
+`components/KnowledgeGraph.tsx` 使用递归组件渲染树形结构，父子节点通过垂直和水平线连接。
 
 移动端（< 768px）自动切换为 `NodeListView` 列表视图。
 
 ### 主题系统
 
-`lib/theme-context.tsx` 提供暗色模式 Context，`Layout.tsx` 在 `<html>` 上切换 `dark` class，配合 Tailwind `darkMode: 'class'` 生效。
+项目固定使用赛博朋克主题（深色），所有组件直接使用深色样式类，无需主题切换。
 
 ### 搜索功能
 
@@ -66,5 +74,5 @@ pages/nodes/[slug].tsx → 节点详情页（资源列表）
 
 ## 部署
 
-- **Vercel**：零配置，推送 `main` 分支自动部署
+- **Vercel**：连接 GitHub 仓库后，推送 `main` 分支自动部署
 - **GitHub Pages**：`.github/workflows/deploy.yml` 监听 `main` 分支，`npm run build` 后将 `./out` 部署至 GitHub Pages
