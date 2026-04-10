@@ -60,7 +60,7 @@ export default function Home({ nodes }: HomeProps) {
   }, []);
 
   return (
-    <Layout>
+    <Layout nodes={nodes}>
       {/* Hero */}
       <div className="bg-gradient-to-br from-blue-600 via-violet-600 to-purple-700 py-16 sm:py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">

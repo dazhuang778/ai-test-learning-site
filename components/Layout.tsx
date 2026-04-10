@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useTheme } from '../lib/theme-context';
+import { KnowledgeNode } from '../lib/types';
 import dynamic from 'next/dynamic';
 
 const SearchBox = dynamic(() => import('./SearchBox'), {
@@ -19,9 +20,10 @@ interface LayoutProps {
   children: React.ReactNode;
   title?: string;
   description?: string;
+  nodes?: KnowledgeNode[];
 }
 
-export default function Layout({ children, title, description }: LayoutProps) {
+export default function Layout({ children, title, description, nodes = [] }: LayoutProps) {
   const { theme, toggleTheme } = useTheme();
   const [showSearch, setShowSearch] = useState(false);
   const siteTitle = title ? `${title} | AI测试学习` : 'AI测试学习 · 知识图谱';
@@ -61,7 +63,7 @@ export default function Layout({ children, title, description }: LayoutProps) {
             </Link>
             <div className="flex items-center gap-2 sm:gap-4">
               <div className="hidden sm:block relative">
-                <SearchBox />
+                <SearchBox nodes={nodes} />
               </div>
               <button
                 onClick={() => setShowSearch(!showSearch)}
@@ -81,7 +83,7 @@ export default function Layout({ children, title, description }: LayoutProps) {
           </div>
           {showSearch && (
             <div className="sm:hidden border-t border-gray-200 dark:border-slate-700 px-4 py-3 bg-white dark:bg-slate-800">
-              <SearchBox onClose={() => setShowSearch(false)} />
+              <SearchBox nodes={nodes} onClose={() => setShowSearch(false)} />
             </div>
           )}
         </header>

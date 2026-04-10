@@ -7,8 +7,12 @@ interface SearchResult {
   item: KnowledgeNode;
 }
 
-export default function SearchBox({ onClose }: { onClose?: () => void }) {
-  const [nodes, setNodes] = useState<KnowledgeNode[]>([]);
+interface SearchBoxProps {
+  nodes: KnowledgeNode[];
+  onClose?: () => void;
+}
+
+export default function SearchBox({ nodes, onClose }: SearchBoxProps) {
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +20,8 @@ export default function SearchBox({ onClose }: { onClose?: () => void }) {
   const fuse = useMemo(() => {
     return new Fuse(nodes, {
       keys: ['title', 'description', 'resources.title', 'resources.description'],
-      threshold: 0.3,
+      threshold: 0.4,
+      minMatchCharLength: 1,
       includeMatches: true,
       ignoreLocation: true,
     });
@@ -29,10 +34,6 @@ export default function SearchBox({ onClose }: { onClose?: () => void }) {
 
   const isEmpty = query.trim() !== '' && results.length === 0;
   const hasResults = query.trim() !== '' && results.length > 0;
-
-  useEffect(() => {
-    import('../lib/nodes').then(mod => setNodes(mod.getAllNodes()));
-  }, []);
 
   useEffect(() => {
     inputRef.current?.focus();
