@@ -52,6 +52,10 @@ pages/nodes/[slug].tsx → 节点详情页（资源列表）
 
 `lib/theme-context.tsx` 提供暗色模式 Context，`Layout.tsx` 在 `<html>` 上切换 `dark` class，配合 Tailwind `darkMode: 'class'` 生效。
 
+### 搜索功能
+
+`components/SearchBox.tsx` 通过 `nodes` prop 接收数据（由 `getStaticProps` 经 `Layout` 透传），客户端使用 Fuse.js 进行模糊搜索。搜索配置：`threshold: 0.4`、`minMatchCharLength: 1`、`ignoreLocation: true`，搜索 key 包括 `title`、`description`、`resources.title`、`resources.description`。
+
 ### 详情页资源展示
 
 资源按类型分组展示，顺序固定为：课程 → 工具 → 文章 → 视频。支持 Tab chip 单类型过滤。Markdown body 通过 `remark` + `remark-html` 转换后以 `dangerouslySetInnerHTML` 渲染，使用 `@tailwindcss/typography` 的 `prose` 类排版。
