@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useTheme } from '../lib/theme-context';
-import { KnowledgeNode } from '../lib/types';
 import dynamic from 'next/dynamic';
 
 const SearchBox = dynamic(() => import('./SearchBox'), {
@@ -16,15 +15,20 @@ const SearchBox = dynamic(() => import('./SearchBox'), {
   ),
 });
 
+const THEMES = [
+  { id: 'github' as const, label: 'GitHub 白', icon: '☀️' },
+  { id: 'cyberpunk' as const, label: '赛博朋克', icon: '🌃' },
+];
+
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;
   description?: string;
-  nodes?: KnowledgeNode[];
+  nodes?: any[];
 }
 
 export default function Layout({ children, title, description, nodes = [] }: LayoutProps) {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [showSearch, setShowSearch] = useState(false);
   const siteTitle = title ? `${title} | AI测试学习` : 'AI测试学习 · 知识图谱';
   const metaDescription =
@@ -47,7 +51,7 @@ export default function Layout({ children, title, description, nodes = [] }: Lay
         <link rel="icon" href="/favicon.ico" />
         <link rel="alternate" type="application/rss+xml" title="AI测试学习 RSS" href="/rss.xml" />
       </Head>
-      <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900">
+      <div className="min-h-screen flex flex-col bg-white dark:bg-slate-900">
         <header className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 shadow-sm sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -72,13 +76,32 @@ export default function Layout({ children, title, description, nodes = [] }: Lay
               >
                 🔍
               </button>
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
-                aria-label="切换主题"
-              >
-                {theme === 'light' ? '🌙' : '☀️'}
-              </button>
+
+              {/* 主题选择器 */}
+              <div className="relative group">
+                <button
+                  className="p-2 rounded-lg bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
+                  aria-label="切换主题"
+                >
+                  {THEMES.find(t => t.id === theme)?.icon ?? '🌃'}
+                </button>
+                <div className="absolute right-0 top-full mt-2 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 min-w-[140px]">
+                  {THEMES.map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setTheme(t.id)}
+                      className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2 ${
+                        theme === t.id
+                          ? 'text-blue-600 dark:text-blue-400 font-medium'
+                          : 'text-gray-700 dark:text-gray-200'
+                      }`}
+                    >
+                      <span>{t.icon}</span>
+                      <span>{t.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
           {showSearch && (

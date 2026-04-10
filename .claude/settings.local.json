@@ -48,7 +48,8 @@
       "Bash(powershell -Command \"netstat -ano | Select-String ':3000'\")",
       "WebFetch(domain:docs.langchain.com)",
       "Bash(openspec --help)",
-      "Bash(openspec config:*)"
+      "Bash(openspec config:*)",
+      "Bash(npx kill-port:*)"
     ]
   }
 }

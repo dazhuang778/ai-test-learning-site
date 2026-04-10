@@ -1,41 +1,40 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'github' | 'cyberpunk';
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
+  setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'light',
-  toggleTheme: () => {},
+  theme: 'cyberpunk',
+  setTheme: () => {},
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setThemeState] = useState<Theme>('cyberpunk');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const stored = localStorage.getItem('theme') as Theme | null;
     if (stored) {
-      setTheme(stored);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
+      setThemeState(stored);
     }
   }, []);
 
   useEffect(() => {
     if (mounted) {
-      document.documentElement.classList.toggle('dark', theme === 'dark');
+      // Cyberpunk = dark mode, GitHub = light mode
+      document.documentElement.classList.toggle('dark', theme === 'cyberpunk');
       localStorage.setItem('theme', theme);
     }
   }, [theme, mounted]);
 
-  const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : 'light'));
+  const setTheme = (newTheme: Theme) => setThemeState(newTheme);
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

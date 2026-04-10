@@ -1,22 +1,9 @@
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import NodeListView from '../components/NodeListView';
+import KnowledgeGraph from '../components/KnowledgeGraph';
 import { getAllNodes } from '../lib/nodes';
 import { KnowledgeNode } from '../lib/types';
-
-const KnowledgeGraph = dynamic(() => import('../components/KnowledgeGraph'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center h-[640px] text-gray-400">
-      <div className="text-center">
-        <div className="text-4xl mb-3 animate-pulse">🗺️</div>
-        <div className="text-sm">加载知识图谱中...</div>
-      </div>
-    </div>
-  ),
-});
 
 const LEVEL_LEGEND = [
   {
@@ -50,15 +37,6 @@ interface HomeProps {
 }
 
 export default function Home({ nodes }: HomeProps) {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
   return (
     <Layout nodes={nodes}>
       {/* Hero */}
@@ -80,15 +58,12 @@ export default function Home({ nodes }: HomeProps) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Graph or List */}
-        <div id="graph">
-          {isMobile ? (
-            <NodeListView nodes={nodes} />
-          ) : (
-            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
-              <KnowledgeGraph nodes={nodes} />
-            </div>
-          )}
+        {/* 知识图谱 */}
+        <div
+          id="graph"
+          className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm p-6"
+        >
+          <KnowledgeGraph nodes={nodes} />
         </div>
 
         {/* Level Legend */}
@@ -106,7 +81,7 @@ export default function Home({ nodes }: HomeProps) {
 
         {/* Tip */}
         <p className="text-center text-xs text-gray-400 dark:text-slate-500 mt-6">
-          {isMobile ? '点击卡片查看详情' : '点击图谱节点查看详情 · 支持缩放和平移'}
+          点击卡片查看详情
         </p>
       </div>
     </Layout>
