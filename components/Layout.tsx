@@ -15,6 +15,7 @@ const SearchBox = dynamic(() => import('./SearchBox'), {
 });
 
 const AUTHOR_AVATAR_KEY = 'author_avatar';
+const DEFAULT_AVATAR = '/screenshot-20260128-093708.png';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -25,13 +26,13 @@ interface LayoutProps {
 
 export default function Layout({ children, title, description, nodes = [] }: LayoutProps) {
   const [showSearch, setShowSearch] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState<string>('');
+  const [avatarUrl, setAvatarUrl] = useState<string>(DEFAULT_AVATAR);
   const siteTitle = title ? `${title} | AI测试学习` : 'AI测试学习 · 知识图谱';
   const metaDescription =
     description ??
     'AI辅助软件测试学习体系，帮助测试工程师快速掌握AI测试技能，找到适合自己阶段的优质资源。';
 
-  // 加载保存的头像
+  // 加载保存的头像（优先使用本地保存的）
   useEffect(() => {
     const saved = localStorage.getItem(AUTHOR_AVATAR_KEY);
     if (saved) setAvatarUrl(saved);
