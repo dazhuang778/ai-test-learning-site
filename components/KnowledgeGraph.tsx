@@ -1,26 +1,30 @@
 import Link from 'next/link';
 import { KnowledgeNode } from '../lib/types';
 
-const LEVEL_STYLES: Record<number, { card: string; badge: string; label: string }> = {
+const LEVEL_STYLES: Record<number, { card: string; badge: string; label: string; glow: string }> = {
   0: {
-    card: 'bg-gradient-to-br from-purple-50 to-violet-100 border-purple-300 hover:border-purple-500',
-    badge: 'bg-purple-100 text-purple-700',
-    label: 'Level 0 · 前置',
+    card: 'bg-gradient-to-br from-purple-100 to-violet-200 border-purple-400 hover:border-purple-300 shadow-purple-200',
+    badge: 'bg-purple-200 text-purple-800',
+    label: 'Level 0 · 前置基础',
+    glow: 'shadow-purple-500/30',
   },
   1: {
-    card: 'bg-gradient-to-br from-blue-50 to-sky-100 border-blue-300 hover:border-blue-500',
-    badge: 'bg-blue-100 text-blue-700',
-    label: 'Level 1 · 核心',
+    card: 'bg-gradient-to-br from-blue-100 to-cyan-200 border-cyan-400 hover:border-cyan-300 shadow-blue-200',
+    badge: 'bg-blue-200 text-blue-800',
+    label: 'Level 1 · 核心技能',
+    glow: 'shadow-blue-500/30',
   },
   2: {
-    card: 'bg-gradient-to-br from-green-50 to-emerald-100 border-green-300 hover:border-green-500',
-    badge: 'bg-green-100 text-green-700',
-    label: 'Level 2 · 进阶',
+    card: 'bg-gradient-to-br from-emerald-100 to-teal-200 border-emerald-400 hover:border-emerald-300 shadow-green-200',
+    badge: 'bg-emerald-200 text-emerald-800',
+    label: 'Level 2 · 进阶技能',
+    glow: 'shadow-green-500/30',
   },
   3: {
-    card: 'bg-gradient-to-br from-orange-50 to-amber-100 border-orange-300 hover:border-orange-500',
-    badge: 'bg-orange-100 text-orange-700',
-    label: 'Level 3 · 实践',
+    card: 'bg-gradient-to-br from-orange-100 to-amber-200 border-orange-400 hover:border-orange-300 shadow-orange-200',
+    badge: 'bg-orange-200 text-orange-800',
+    label: 'Level 3 · 综合实践',
+    glow: 'shadow-orange-500/30',
   },
 };
 
@@ -28,153 +32,84 @@ interface KnowledgeGraphProps {
   nodes: KnowledgeNode[];
 }
 
-interface LevelGroup {
-  level: number;
-  nodes: KnowledgeNode[];
-}
-
-// 构建父子关系映射
-function buildParentMap(nodes: KnowledgeNode[]): Record<string, string> {
-  const map: Record<string, string> = {};
-  nodes.forEach(node => {
-    if (node.parent) {
-      map[node.slug] = node.parent;
-    }
-  });
-  return map;
+function getChildren(nodes: KnowledgeNode[], parentSlug: string): KnowledgeNode[] {
+  return nodes.filter(n => n.parent === parentSlug);
 }
 
 export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
-  // 按 level 分组
-  const levelGroups: LevelGroup[] = [];
-  const levelMap: Record<number, KnowledgeNode[]> = {};
-
-  nodes.forEach(node => {
-    if (!levelMap[node.level]) levelMap[node.level] = [];
-    levelMap[node.level].push(node);
-  });
-
-  Object.keys(levelMap)
-    .map(Number)
-    .sort()
-    .forEach(level => {
-      levelGroups.push({ level, nodes: levelMap[level] });
-    });
-
-  const parentMap = buildParentMap(nodes);
+  const rootNode = nodes.find(n => n.level === 0);
 
   return (
-    <div className="w-full py-8 relative">
-      {/* 连接线 SVG 层 */}
-      <svg
-        className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
-        style={{ overflow: 'visible' }}
-      >
-        <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="7"
-            refX="9"
-            refY="3.5"
-            orient="auto"
-          >
-            <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
-          </marker>
-        </defs>
-        {nodes.map(node => {
-          if (!node.parent) return null;
-          const parent = nodes.find(n => n.slug === node.parent);
-          if (!parent) return null;
+    <div className="w-full py-12 overflow-x-auto">
+      <div className="min-w-max px-8">
+        {rootNode && <MindMapNode node={rootNode} nodes={nodes} level={0} />}
+      </div>
+    </div>
+  );
+}
 
-          const parentLevelIndex = levelGroups.findIndex(g => g.level === parent.level);
-          const childLevelIndex = levelGroups.findIndex(g => g.level === node.level);
-          const parentIndex = levelGroups[parentLevelIndex].nodes.indexOf(parent);
-          const childIndex = levelGroups[childLevelIndex].nodes.indexOf(node);
+function MindMapNode({
+  node,
+  nodes,
+  level,
+  isLast = false,
+}: {
+  node: KnowledgeNode;
+  nodes: KnowledgeNode[];
+  level: number;
+  isLast?: boolean;
+}) {
+  const style = LEVEL_STYLES[node.level] ?? LEVEL_STYLES[0];
+  const children = getChildren(nodes, node.slug);
+  const isLeaf = children.length === 0;
 
-          const levelCount = levelGroups.length;
-          const vGap = 120; // 垂直间距
-          const hGap = 180; // 水平节点间距
-
-          // 计算位置（居中对齐）
-          const parentLevelWidth = levelGroups[parentLevelIndex].nodes.length * hGap;
-          const childLevelWidth = levelGroups[childLevelIndex].nodes.length * hGap;
-
-          const parentX = (parentIndex - (levelGroups[parentLevelIndex].nodes.length - 1) / 2) * hGap;
-          const parentY = parentLevelIndex * vGap + 40;
-          const childX = (childIndex - (levelGroups[childLevelIndex].nodes.length - 1) / 2) * hGap;
-          const childY = childLevelIndex * vGap + 40;
-
-          const startX = parentX + 88; // 卡片宽度的一半
-          const startY = parentY + 80;
-          const endX = childX + 88;
-          const endY = childY;
-
-          //贝塞尔曲线控制点
-          const cx1 = startX;
-          const cy1 = startY + 30;
-          const cx2 = endX;
-          const cy2 = endY - 30;
-
-          return (
-            <path
-              key={`${parent.slug}-${node.slug}`}
-              d={`M ${startX} ${startY} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${endX} ${endY}`}
-              stroke="#94a3b8"
-              strokeWidth="2"
-              fill="none"
-              markerEnd="url(#arrowhead)"
-            />
-          );
-        })}
-      </svg>
-
-      {levelGroups.map(group => (
-        <div key={group.level} className="mb-12 last:mb-0 relative z-10">
-          {/* Level 标签 */}
-          <div className="text-center mb-6">
-            <span
-              className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                LEVEL_STYLES[group.level]?.badge ?? ''
-              }`}
-            >
-              {LEVEL_STYLES[group.level]?.label ?? `Level ${group.level}`}
+  // 水平布局：当前节点在左，子节点在右
+  return (
+    <div className="flex items-center">
+      {/* 当前节点 */}
+      <div className={`flex-shrink-0 mx-8 ${level > 0 ? 'ml-24' : ''}`}>
+        <Link
+          href={`/nodes/${node.slug}`}
+          className={`block w-52 px-5 py-4 rounded-xl border-2 cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${style.card}`}
+        >
+          <div className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mb-2 ${style.badge}`}>
+            {style.label}
+          </div>
+          <div className="font-bold text-gray-900 text-base leading-snug mb-2">{node.title}</div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-600">{node.stage}</span>
+            <span className="text-xs leading-none">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <span key={i} className={i < node.difficulty ? 'text-yellow-500' : 'text-gray-300'}>
+                  ★
+                </span>
+              ))}
             </span>
           </div>
+          <div className="text-xs text-blue-600 mt-2">{node.resources.length} 条资源</div>
+        </Link>
+      </div>
 
-          {/* 节点行 */}
-          <div className="flex flex-wrap justify-center gap-x-18 gap-y-6">
-            {group.nodes.map(node => {
-              const style = LEVEL_STYLES[node.level] ?? LEVEL_STYLES[0];
-              return (
-                <Link
-                  key={node.slug}
-                  href={`/nodes/${node.slug}`}
-                  className={`w-44 px-3 py-3 rounded-xl border-2 cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 ${style.card}`}
-                >
-                  <div className="font-bold text-sm text-gray-900 leading-snug mb-2">
-                    {node.title}
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">{node.stage}</span>
-                    <span className="text-xs leading-none">
-                      {Array.from({ length: 3 }).map((_, i) => (
-                        <span
-                          key={i}
-                          className={i < node.difficulty ? 'text-yellow-400' : 'text-gray-200'}
-                        >
-                          ★
-                        </span>
-                      ))}
-                    </span>
-                  </div>
-                  <div className="text-xs text-blue-600 mt-2">{node.resources.length} 条资源</div>
-                </Link>
-              );
-            })}
+      {/* 连接线和子节点 */}
+      {!isLeaf && (
+        <div className="flex items-center">
+          {/* 水平连接线 */}
+          <div className="w-12 h-0.5 bg-gradient-to-r from-gray-300 to-gray-400" />
+
+          {/* 子节点容器 */}
+          <div className="flex flex-col gap-6">
+            {children.map((child, idx) => (
+              <div key={child.slug} className="flex items-center">
+                {/* 垂直连接线 */}
+                {children.length > 1 && idx < children.length - 1 && (
+                  <div className="w-0.5 h-16 bg-gradient-to-b from-gray-300 to-gray-400 absolute" />
+                )}
+                <MindMapNode node={child} nodes={nodes} level={level + 1} />
+              </div>
+            ))}
           </div>
         </div>
-      ))}
+      )}
     </div>
   );
 }

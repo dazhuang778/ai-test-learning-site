@@ -49,7 +49,8 @@
       "WebFetch(domain:docs.langchain.com)",
       "Bash(openspec --help)",
       "Bash(openspec config:*)",
-      "Bash(npx kill-port:*)"
+      "Bash(npx kill-port:*)",
+      "Bash(node -e ':*)"
     ]
   }
 }
