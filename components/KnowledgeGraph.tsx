@@ -47,8 +47,55 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
         <p className="text-gray-400 text-sm">从基础到实践，循序渐进</p>
       </div>
 
-      {/* 水平布局 */}
-      <div className="flex items-start justify-center overflow-x-auto pb-8">
+      {/* 移动端布局：垂直网格 */}
+      <div className="flex flex-col gap-8 sm:hidden">
+        {sortedLevels.map(level => {
+          const levelNodes = levels[level];
+          const style = LEVEL_STYLES[level] ?? LEVEL_STYLES[0];
+
+          return (
+            <div key={level} className="flex flex-col gap-3">
+              <div className="mb-2">
+                <span
+                  className={`inline-block px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${style.badge}`}
+                >
+                  {style.label}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {levelNodes.map(node => (
+                  <Link
+                    key={node.slug}
+                    href={`/nodes/${node.slug}`}
+                    className={`block p-3 rounded-xl border-2 cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${style.card}`}
+                  >
+                    <div className="font-bold text-white text-xs leading-snug mb-2">
+                      {node.title}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-400">{node.stage}</span>
+                      <span className="text-xs leading-none">
+                        {Array.from({ length: 3 }).map((_, i) => (
+                          <span
+                            key={i}
+                            className={i < node.difficulty ? 'text-yellow-400' : 'text-gray-600'}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </span>
+                    </div>
+                    <div className="text-xs text-cyan-400 mt-2">{node.resources.length} 条资源</div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 桌面端布局：水平排列 */}
+      <div className="hidden sm:flex items-start justify-center overflow-x-auto pb-8">
         {sortedLevels.map(level => {
           const levelNodes = levels[level];
           const style = LEVEL_STYLES[level] ?? LEVEL_STYLES[0];
@@ -57,9 +104,8 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
             <div
               key={level}
               className="flex flex-col items-center flex-shrink-0"
-              style={{ minWidth: '160px', marginRight: '32px' }}
+              style={{ minWidth: '200px', marginRight: '48px' }}
             >
-              {/* Level 标签 */}
               <div className="mb-4">
                 <span
                   className={`inline-block px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${style.badge}`}
@@ -68,13 +114,12 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
                 </span>
               </div>
 
-              {/* 节点容器 */}
               <div className="flex flex-col gap-6">
                 {levelNodes.map(node => (
                   <Link
                     key={node.slug}
                     href={`/nodes/${node.slug}`}
-                    className={`block w-36 sm:w-44 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl border-2 cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${style.card}`}
+                    className={`block w-60 px-4 py-3 rounded-xl border-2 cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${style.card}`}
                   >
                     <div className="font-bold text-white text-sm leading-snug mb-2">
                       {node.title}
