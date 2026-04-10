@@ -76,8 +76,12 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
       {/* Banner - 赛博朋克风格 */}
       <div className={`bg-gradient-to-br ${gradient} px-4 py-10 sm:py-14 relative overflow-hidden`}>
         {/* 装饰性线条 */}
-        <div className={`absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent ${node.level === 0 ? 'via-purple-500' : node.level === 1 ? 'via-cyan-500' : node.level === 2 ? 'via-emerald-500' : 'via-orange-500'} to-transparent`} />
-        <div className={`absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent ${node.level === 0 ? 'via-purple-500' : node.level === 1 ? 'via-cyan-500' : node.level === 2 ? 'via-emerald-500' : 'via-orange-500'} to-transparent`} />
+        <div
+          className={`absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent ${node.level === 0 ? 'via-purple-500' : node.level === 1 ? 'via-cyan-500' : node.level === 2 ? 'via-emerald-500' : 'via-orange-500'} to-transparent`}
+        />
+        <div
+          className={`absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent ${node.level === 0 ? 'via-purple-500' : node.level === 1 ? 'via-cyan-500' : node.level === 2 ? 'via-emerald-500' : 'via-orange-500'} to-transparent`}
+        />
 
         <div className="max-w-3xl mx-auto relative z-10">
           {/* Breadcrumb */}
@@ -91,7 +95,9 @@ export default function NodePage({ node, bodyHtml }: NodePageProps) {
 
           {/* Tags & difficulty */}
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className={`text-xs font-medium bg-purple-500/20 ${accent} border border-purple-500/50 px-2.5 py-1 rounded-full`}>
+            <span
+              className={`text-xs font-medium bg-purple-500/20 ${accent} border border-purple-500/50 px-2.5 py-1 rounded-full`}
+            >
               {LEVEL_LABELS[node.level]}
             </span>
             <span

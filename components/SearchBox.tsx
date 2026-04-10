@@ -84,9 +84,7 @@ export default function SearchBox({ nodes, onClose }: SearchBoxProps) {
       {isOpen && (
         <div className="absolute top-full left-0 right-0 sm:right-auto sm:w-80 mt-2 bg-slate-800 border border-slate-700 rounded-lg shadow-lg overflow-hidden z-50">
           {isEmpty ? (
-            <div className="p-4 text-sm text-slate-400 text-center">
-              未找到相关结果
-            </div>
+            <div className="p-4 text-sm text-slate-400 text-center">未找到相关结果</div>
           ) : hasResults ? (
             <ul className="max-h-80 overflow-y-auto">
               {results.map(item => (
@@ -96,15 +94,11 @@ export default function SearchBox({ nodes, onClose }: SearchBoxProps) {
                     onClick={handleClose}
                     className="block px-4 py-3 hover:bg-slate-700 border-b border-slate-700 last:border-b-0"
                   >
-                    <div className="font-medium text-white text-sm">
-                      {item.title}
-                    </div>
+                    <div className="font-medium text-white text-sm">{item.title}</div>
                     <div className="text-xs text-slate-400 mt-0.5 line-clamp-1">
                       {item.description}
                     </div>
-                    <div className="text-xs text-cyan-400 mt-1">
-                      {item.resources.length} 条资源
-                    </div>
+                    <div className="text-xs text-cyan-400 mt-1">{item.resources.length} 条资源</div>
                   </Link>
                 </li>
               ))}

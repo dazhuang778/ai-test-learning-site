@@ -80,9 +80,7 @@ export default function Home({ nodes }: HomeProps) {
         </div>
 
         {/* Tip */}
-        <p className="text-center text-xs text-gray-500 mt-6">
-          点击卡片查看详情
-        </p>
+        <p className="text-center text-xs text-gray-500 mt-6">点击卡片查看详情</p>
       </div>
     </Layout>
   );

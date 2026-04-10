@@ -4,15 +4,14 @@
 
 ## 功能特性
 
-- **可视化知识图谱** — 4层级8节点，点击节点进入详情页
+- **可视化知识图谱** — 4层级8节点，水平树形布局，点击节点进入详情页
+- **赛博朋克主题** — 深色背景 + 霓虹渐变配色，科技感十足
 - **模糊搜索** — 支持节点名、资源名模糊匹配，单字符即可触发
-- **渐变视觉设计** — Hero区蓝紫渐变、详情页level配色Banner、节点卡片渐变动效
-- **节点正文展示** — 详情页在简介后渲染Markdown正文内容（可选）
-- **资源分类展示** — 精选资源按类型（课程/工具/文章/视频）分组，支持Tab过滤快速定位
+- **节点正文展示** — 详情页在简介后渲染 Markdown 正文内容（可选）
+- **资源分类展示** — 精选资源按类型（课程/工具/文章/视频）分组，支持 Tab 过滤快速定位
 - **海量精选资源** — 8个知识节点共收录110条高质量资源，涵盖文章、课程、工具、视频四类
-- **移动端适配** — 手机端自动切换列表视图，资源过滤chips支持横向滚动
-- **纯静态部署** — 无服务器，支持Vercel / GitHub Pages
-- **暗色模式** — 支持手动切换主题，自动跟随系统偏好
+- **移动端适配** — 页面全响应式设计
+- **纯静态部署** — 无服务器，支持 Vercel / GitHub Pages
 - **SEO优化** — Open Graph、Twitter Card、sitemap.xml、robots.txt、RSS订阅
 
 ## 快速开始
@@ -67,7 +66,7 @@ content/nodes/
 
 1. 在 `content/nodes/` 新建 `<slug>.md` 文件
 2. 填写 frontmatter（见下方规范）
-3. 推送到Git，自动触发构建
+3. 推送到 Git，自动触发构建
 
 ### frontmatter 规范
 
@@ -133,7 +132,6 @@ assetPrefix: '/repo-name/',
 | Next.js 14 | 静态站点框架（Pages Router） |
 | TypeScript | 类型安全 |
 | Tailwind CSS + Typography | 样式与正文排版 |
-| @xyflow/react | 知识图谱可视化 |
 | gray-matter | Markdown frontmatter 解析 |
 | remark + remark-html | Markdown 正文转 HTML |
 | Fuse.js | 客户端模糊搜索 |
@@ -144,25 +142,21 @@ assetPrefix: '/repo-name/',
 ```
 ai-test-study/
 ├── components/              # React 组件
-│   ├── Layout.tsx           # 布局组件（含头部/底部/搜索框）
+│   ├── Layout.tsx          # 布局组件（含头部/底部/搜索框）
 │   ├── SearchBox.tsx        # 搜索框组件（Fuse.js 模糊搜索）
-│   ├── KnowledgeGraph.tsx   # 知识图谱（@xyflow/react）
-│   ├── KnowledgeNodeCard.tsx # 图谱节点卡片
-│   ├── NodeListView.tsx     # 移动端列表视图
+│   ├── KnowledgeGraph.tsx   # 知识图谱（纯 HTML/CSS 树形布局）
 │   └── ResourceCard.tsx     # 资源卡片
 ├── content/
-│   └── nodes/               # 知识节点 Markdown 文件（8个节点）
+│   └── nodes/              # 知识节点 Markdown 文件（8个节点）
 ├── lib/
-│   ├── nodes.ts             # 节点数据读取（唯一数据入口）
-│   ├── graph.ts             # 图谱数据构建
-│   ├── types.ts             # TypeScript 类型定义
-│   ├── use-search.ts        # 搜索 Hook（封装 Fuse.js）
-│   └── theme-context.tsx    # 主题 Context（暗色模式）
-├── pages/                   # Next.js 页面
-│   ├── index.tsx            # 首页（知识图谱 + 列表）
-│   └── nodes/[slug].tsx     # 节点详情页
-├── public/                  # 静态资源
-│   ├── sitemap.xml          # 站点地图
-│   └── robots.txt           # 搜索引擎配置
-└── styles/                  # 全局样式
+│   ├── nodes.ts            # 节点数据读取（唯一数据入口）
+│   ├── graph.ts            # 图谱数据构建
+│   └── types.ts            # TypeScript 类型定义
+├── pages/                  # Next.js 页面
+│   ├── index.tsx           # 首页（知识图谱 + 列表）
+│   └── nodes/[slug].tsx   # 节点详情页
+├── public/                 # 静态资源
+│   ├── sitemap.xml         # 站点地图
+│   └── robots.txt          # 搜索引擎配置
+└── styles/                 # 全局样式
 ```

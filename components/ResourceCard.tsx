@@ -64,12 +64,8 @@ export default function ResourceCard({ resource }: ResourceCardProps) {
                 {TYPE_ICONS[resource.type] ?? ''} {TYPE_LABELS[resource.type] ?? resource.type}
               </span>
             </div>
-            <h3 className="font-semibold text-white text-sm leading-snug">
-              {resource.title}
-            </h3>
-            <p className="text-sm text-gray-400 mt-1 leading-relaxed">
-              {resource.description}
-            </p>
+            <h3 className="font-semibold text-white text-sm leading-snug">{resource.title}</h3>
+            <p className="text-sm text-gray-400 mt-1 leading-relaxed">{resource.description}</p>
           </div>
           <a
             href={resource.url}

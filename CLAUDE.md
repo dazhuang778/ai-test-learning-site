@@ -52,13 +52,11 @@ pages/nodes/[slug].tsx → 节点详情页（资源列表）
 
 ### 知识图谱渲染
 
-`components/KnowledgeGraph.tsx` 使用递归组件渲染树形结构，父子节点通过垂直和水平线连接。
-
-移动端（< 768px）自动切换为 `NodeListView` 列表视图。
+`components/KnowledgeGraph.tsx` 使用纯 HTML/CSS 渲染水平树形结构，按 level 从左到右排列：Level 0 → Level 1 → Level 2 → Level 3。父子节点通过颜色区分，无连接线。
 
 ### 主题系统
 
-项目固定使用赛博朋克主题（深色），所有组件直接使用深色样式类，无需主题切换。
+项目固定使用**赛博朋克主题**（深色）。所有组件直接使用深色样式类，无需主题切换。
 
 ### 搜索功能
 

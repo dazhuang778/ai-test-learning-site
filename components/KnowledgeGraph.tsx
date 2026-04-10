@@ -35,7 +35,9 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
     if (!levels[n.level]) levels[n.level] = [];
     levels[n.level].push(n);
   });
-  const sortedLevels = Object.keys(levels).map(Number).sort((a, b) => a - b);
+  const sortedLevels = Object.keys(levels)
+    .map(Number)
+    .sort((a, b) => a - b);
 
   return (
     <div className="w-full py-8 px-4">
@@ -47,33 +49,44 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
 
       {/* 水平布局 */}
       <div className="flex items-start justify-center overflow-x-auto pb-8">
-        {sortedLevels.map((level) => {
+        {sortedLevels.map(level => {
           const levelNodes = levels[level];
           const style = LEVEL_STYLES[level] ?? LEVEL_STYLES[0];
 
           return (
-            <div key={level} className="flex flex-col items-center" style={{ minWidth: '200px', marginRight: '48px' }}>
+            <div
+              key={level}
+              className="flex flex-col items-center"
+              style={{ minWidth: '200px', marginRight: '48px' }}
+            >
               {/* Level 标签 */}
               <div className="mb-4">
-                <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${style.badge}`}>
+                <span
+                  className={`inline-block px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${style.badge}`}
+                >
                   {style.label}
                 </span>
               </div>
 
               {/* 节点容器 */}
               <div className="flex flex-col gap-6">
-                {levelNodes.map((node) => (
+                {levelNodes.map(node => (
                   <Link
                     key={node.slug}
                     href={`/nodes/${node.slug}`}
                     className={`block w-44 px-4 py-3 rounded-xl border-2 cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${style.card}`}
                   >
-                    <div className="font-bold text-white text-sm leading-snug mb-2">{node.title}</div>
+                    <div className="font-bold text-white text-sm leading-snug mb-2">
+                      {node.title}
+                    </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-400">{node.stage}</span>
                       <span className="text-xs leading-none">
                         {Array.from({ length: 3 }).map((_, i) => (
-                          <span key={i} className={i < node.difficulty ? 'text-yellow-400' : 'text-gray-600'}>
+                          <span
+                            key={i}
+                            className={i < node.difficulty ? 'text-yellow-400' : 'text-gray-600'}
+                          >
                             ★
                           </span>
                         ))}
