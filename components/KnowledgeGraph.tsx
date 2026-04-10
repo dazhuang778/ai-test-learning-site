@@ -56,8 +56,8 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
           return (
             <div
               key={level}
-              className="flex flex-col items-center"
-              style={{ minWidth: '200px', marginRight: '48px' }}
+              className="flex flex-col items-center flex-shrink-0"
+              style={{ minWidth: '160px', marginRight: '32px' }}
             >
               {/* Level 标签 */}
               <div className="mb-4">
@@ -74,7 +74,7 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
                   <Link
                     key={node.slug}
                     href={`/nodes/${node.slug}`}
-                    className={`block w-44 px-4 py-3 rounded-xl border-2 cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${style.card}`}
+                    className={`block w-36 sm:w-44 px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl border-2 cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 ${style.card}`}
                   >
                     <div className="font-bold text-white text-sm leading-snug mb-2">
                       {node.title}
