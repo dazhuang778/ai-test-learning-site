@@ -1,5 +1,4 @@
 import { GetStaticProps } from 'next';
-import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import KnowledgeGraph from '../components/KnowledgeGraph';
 import { getAllNodes } from '../lib/nodes';
@@ -58,11 +57,8 @@ export default function Home({ nodes }: HomeProps) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* 知识图谱 */}
-        <div
-          id="graph"
-          className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm p-6"
-        >
+        {/* 知识图谱（无白色边框） */}
+        <div id="graph">
           <KnowledgeGraph nodes={nodes} />
         </div>
 

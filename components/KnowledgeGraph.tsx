@@ -33,6 +33,17 @@ interface LevelGroup {
   nodes: KnowledgeNode[];
 }
 
+// 构建父子关系映射
+function buildParentMap(nodes: KnowledgeNode[]): Record<string, string> {
+  const map: Record<string, string> = {};
+  nodes.forEach(node => {
+    if (node.parent) {
+      map[node.slug] = node.parent;
+    }
+  });
+  return map;
+}
+
 export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
   // 按 level 分组
   const levelGroups: LevelGroup[] = [];
@@ -50,12 +61,78 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
       levelGroups.push({ level, nodes: levelMap[level] });
     });
 
+  const parentMap = buildParentMap(nodes);
+
   return (
-    <div className="w-full py-8">
+    <div className="w-full py-8 relative">
+      {/* 连接线 SVG 层 */}
+      <svg
+        className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+        style={{ overflow: 'visible' }}
+      >
+        <defs>
+          <marker
+            id="arrowhead"
+            markerWidth="10"
+            markerHeight="7"
+            refX="9"
+            refY="3.5"
+            orient="auto"
+          >
+            <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+          </marker>
+        </defs>
+        {nodes.map(node => {
+          if (!node.parent) return null;
+          const parent = nodes.find(n => n.slug === node.parent);
+          if (!parent) return null;
+
+          const parentLevelIndex = levelGroups.findIndex(g => g.level === parent.level);
+          const childLevelIndex = levelGroups.findIndex(g => g.level === node.level);
+          const parentIndex = levelGroups[parentLevelIndex].nodes.indexOf(parent);
+          const childIndex = levelGroups[childLevelIndex].nodes.indexOf(node);
+
+          const levelCount = levelGroups.length;
+          const vGap = 120; // 垂直间距
+          const hGap = 180; // 水平节点间距
+
+          // 计算位置（居中对齐）
+          const parentLevelWidth = levelGroups[parentLevelIndex].nodes.length * hGap;
+          const childLevelWidth = levelGroups[childLevelIndex].nodes.length * hGap;
+
+          const parentX = (parentIndex - (levelGroups[parentLevelIndex].nodes.length - 1) / 2) * hGap;
+          const parentY = parentLevelIndex * vGap + 40;
+          const childX = (childIndex - (levelGroups[childLevelIndex].nodes.length - 1) / 2) * hGap;
+          const childY = childLevelIndex * vGap + 40;
+
+          const startX = parentX + 88; // 卡片宽度的一半
+          const startY = parentY + 80;
+          const endX = childX + 88;
+          const endY = childY;
+
+          //贝塞尔曲线控制点
+          const cx1 = startX;
+          const cy1 = startY + 30;
+          const cx2 = endX;
+          const cy2 = endY - 30;
+
+          return (
+            <path
+              key={`${parent.slug}-${node.slug}`}
+              d={`M ${startX} ${startY} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${endX} ${endY}`}
+              stroke="#94a3b8"
+              strokeWidth="2"
+              fill="none"
+              markerEnd="url(#arrowhead)"
+            />
+          );
+        })}
+      </svg>
+
       {levelGroups.map(group => (
-        <div key={group.level} className="mb-10 last:mb-0">
+        <div key={group.level} className="mb-12 last:mb-0 relative z-10">
           {/* Level 标签 */}
-          <div className="text-center mb-4">
+          <div className="text-center mb-6">
             <span
               className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                 LEVEL_STYLES[group.level]?.badge ?? ''
@@ -66,7 +143,7 @@ export default function KnowledgeGraph({ nodes }: KnowledgeGraphProps) {
           </div>
 
           {/* 节点行 */}
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-x-18 gap-y-6">
             {group.nodes.map(node => {
               const style = LEVEL_STYLES[node.level] ?? LEVEL_STYLES[0];
               return (
