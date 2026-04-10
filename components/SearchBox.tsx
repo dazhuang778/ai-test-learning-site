@@ -1,11 +1,7 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Fuse from 'fuse.js';
 import { KnowledgeNode } from '../lib/types';
-
-interface SearchResult {
-  item: KnowledgeNode;
-}
 
 interface SearchBoxProps {
   nodes: KnowledgeNode[];
@@ -14,26 +10,38 @@ interface SearchBoxProps {
 
 export default function SearchBox({ nodes, onClose }: SearchBoxProps) {
   const [query, setQuery] = useState('');
+  const [results, setResults] = useState<KnowledgeNode[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const fuseRef = useRef<Fuse<KnowledgeNode> | null>(null);
 
-  const fuse = useMemo(() => {
-    return new Fuse(nodes, {
-      keys: ['title', 'description', 'resources.title', 'resources.description'],
-      threshold: 0.4,
-      minMatchCharLength: 1,
-      includeMatches: true,
-      ignoreLocation: true,
-    });
+  // 初始化 Fuse 搜索索引
+  useEffect(() => {
+    if (nodes && nodes.length > 0) {
+      fuseRef.current = new Fuse(nodes, {
+        keys: [
+          { name: 'title', weight: 2 },
+          { name: 'description', weight: 1 },
+          { name: 'resources.title', weight: 1.5 },
+          { name: 'resources.description', weight: 0.5 },
+        ],
+        threshold: 0.4,
+        minMatchCharLength: 1,
+        includeScore: true,
+        ignoreLocation: true,
+      });
+    }
   }, [nodes]);
 
-  const results: SearchResult[] = useMemo(() => {
-    if (!query.trim()) return [];
-    return fuse.search(query).slice(0, 10);
-  }, [fuse, query]);
-
-  const isEmpty = query.trim() !== '' && results.length === 0;
-  const hasResults = query.trim() !== '' && results.length > 0;
+  // 搜索逻辑
+  useEffect(() => {
+    if (!query.trim() || !fuseRef.current) {
+      setResults([]);
+      return;
+    }
+    const searchResults = fuseRef.current.search(query).slice(0, 10);
+    setResults(searchResults.map(r => r.item));
+  }, [query]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -47,6 +55,9 @@ export default function SearchBox({ nodes, onClose }: SearchBoxProps) {
     setIsOpen(false);
     onClose?.();
   };
+
+  const isEmpty = query.trim() !== '' && results.length === 0;
+  const hasResults = query.trim() !== '' && results.length > 0;
 
   return (
     <div className="relative">
@@ -78,7 +89,7 @@ export default function SearchBox({ nodes, onClose }: SearchBoxProps) {
             </div>
           ) : hasResults ? (
             <ul className="max-h-80 overflow-y-auto">
-              {results.map(({ item }) => (
+              {results.map(item => (
                 <li key={item.slug}>
                   <Link
                     href={`/nodes/${item.slug}`}
